@@ -1,2 +1,2 @@
 # Hotel-Manegement-System
-# Hotel-Manegement-System
+eclipse + swt + jdbc + sql server
