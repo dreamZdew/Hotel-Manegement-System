@@ -71,7 +71,7 @@ public class Main extends Shell {
 		Composite composite_Buttons = new Composite(composite, SWT.NONE);
 		composite_Buttons.setBackground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
 		composite_Buttons.setLayout(new FillLayout(SWT.VERTICAL));
-		GridData gd_composite_Buttons = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		GridData gd_composite_Buttons = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd_composite_Buttons.heightHint = 384;
 		composite_Buttons.setLayoutData(gd_composite_Buttons);
 		
@@ -80,14 +80,13 @@ public class Main extends Shell {
 		final StackLayout stackLayout = new StackLayout();
 		composite_MainofMain.setLayout(stackLayout);
 		
-		GridData gd_composite_MainofMain = new GridData(SWT.RIGHT, SWT.CENTER, true, true, 1, 1);
+		GridData gd_composite_MainofMain = new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1);
 		gd_composite_MainofMain.widthHint = 677;
 		gd_composite_MainofMain.heightHint = 401;
 		composite_MainofMain.setLayoutData(gd_composite_MainofMain);
 		
 		Composite composite_1 = new Composite(composite_MainofMain, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-		composite_1.setLayout(new BorderLayout(0, 0));
 		
 		Composite composite_2 = new Composite(composite_MainofMain, SWT.NONE);
 		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
@@ -200,63 +199,35 @@ public class Main extends Shell {
 		btnNewButton_7.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
 		btnNewButton_7.setBackground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
 		btnNewButton_7.setText("New Button");
+		RowLayout rl_composite_1 = new RowLayout(SWT.VERTICAL);
+		rl_composite_1.justify = true;
+		rl_composite_1.center = true;
+		composite_1.setLayout(rl_composite_1);
 		
 		
 		
 		Label lblNewLabel = new Label(composite_1, SWT.WRAP);
-		lblNewLabel.setLayoutData(BorderLayout.NORTH);
+		lblNewLabel.setLayoutData(new RowData(634, SWT.DEFAULT));
 		lblNewLabel.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		lblNewLabel.setFont(SWTResourceManager.getFont("宋体", 30, SWT.NORMAL));
 		lblNewLabel.setAlignment(SWT.CENTER);
 		lblNewLabel.setText("酒店管理系统");
 		
-		Composite composite_11 = new Composite(composite_1, SWT.NONE);
-		composite_11.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-		composite_11.setLayoutData(BorderLayout.SOUTH);
-		
-		Composite composite_12 = new Composite(composite_1, SWT.NONE);
-		composite_12.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-		composite_12.setLayoutData(BorderLayout.WEST);
-		
-		Composite composite_13 = new Composite(composite_1, SWT.NONE);
-		composite_13.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-		composite_13.setLayoutData(BorderLayout.EAST);
-		
-		text_age = new Text(composite_13, SWT.BORDER | SWT.CENTER);
-		text_age.setBounds(0, 108, 50, 20);
-		
-		text_gender = new Text(composite_13, SWT.BORDER | SWT.CENTER);
-		text_gender.setBounds(0, 148, 50, 20);
-		
-		Label lblNewLabel_age = new Label(composite_13, SWT.NONE);
-		lblNewLabel_age.setAlignment(SWT.CENTER);
-		lblNewLabel_age.setBounds(0, 88, 50, 20);
-		lblNewLabel_age.setText("年龄");
-		
-		Label lblNewLabel_gender = new Label(composite_13, SWT.NONE);
-		lblNewLabel_gender.setText("性别");
-		lblNewLabel_gender.setAlignment(SWT.CENTER);
-		lblNewLabel_gender.setBounds(0, 128, 50, 20);
-		
-		Label lblNewLabel_warn = new Label(composite_13, SWT.CENTER);
+		Label lblNewLabel_warn = new Label(composite_1, SWT.CENTER);
+		lblNewLabel_warn.setLayoutData(new RowData(242, 32));
 		lblNewLabel_warn.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		lblNewLabel_warn.setBounds(0, 0, 50, 88);
-		lblNewLabel_warn.setText("");lblNewLabel_warn.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_warn.setText("");
+		lblNewLabel_warn.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		
 		Composite composite_14 = new Composite(composite_1, SWT.NONE);
 		composite_14.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-		composite_14.setLayoutData(BorderLayout.CENTER);
-		composite_14.setLayout(new FormLayout());
+		RowLayout rl_composite_14 = new RowLayout(SWT.HORIZONTAL);
+		composite_14.setLayout(rl_composite_14);
 		
 		Composite composite_141 = new Composite(composite_14, SWT.NONE);
+		composite_141.setLayoutData(new RowData(SWT.DEFAULT, 242));
 		composite_141.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-		FormData fd_composite_141 = new FormData();
-		fd_composite_141.bottom = new FormAttachment(0, 287);
-		fd_composite_141.right = new FormAttachment(0, 80);
-		fd_composite_141.top = new FormAttachment(0, 7);
-		fd_composite_141.left = new FormAttachment(0, 7);
-		composite_141.setLayoutData(fd_composite_141);
 		composite_141.setLayout(new FillLayout(SWT.VERTICAL));
 		
 		Label lblNewLabel_name = new Label(composite_141, SWT.NONE);
@@ -288,13 +259,11 @@ public class Main extends Shell {
 		lblNewLabel_6.setAlignment(SWT.CENTER);
 		
 		Composite composite_142 = new Composite(composite_14, SWT.NONE);
-		FormData fd_composite_142 = new FormData();
-		fd_composite_142.bottom = new FormAttachment(0, 287);
-		fd_composite_142.right = new FormAttachment(0, 539);
-		fd_composite_142.top = new FormAttachment(0, 7);
-		fd_composite_142.left = new FormAttachment(0, 86);
-		composite_142.setLayoutData(fd_composite_142);
+		composite_142.setLayoutData(new RowData(238, 241));
 		composite_142.setLayout(new FillLayout(SWT.VERTICAL));
+		
+		Composite composite_13 = new Composite(composite_14, SWT.NONE);
+		composite_13.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		
 		text_name = new Text(composite_142, SWT.BORDER);
 		
@@ -322,7 +291,7 @@ public class Main extends Shell {
 					String birth=idnum.substring(6, 14);
 					System.out.println(birth);
 				}else {//身份证长度不满足
-					lblNewLabel_warn.setText("身\n份\n证\n错\n误");
+					lblNewLabel_warn.setText("身份证错误");
 					Runnable timer = new Runnable() {@Override public void run() {if(!isDisposed())lblNewLabel_warn.setText("");}};
 				Display.getDefault().timerExec(3000, timer);}
 
@@ -347,6 +316,23 @@ public class Main extends Shell {
 			}
 		});
 		btnNewButton_inputinfo.setText("确认");
+		composite_13.setLayout(new FillLayout(SWT.VERTICAL));
+		
+		Label lblNewLabel_age = new Label(composite_13, SWT.NONE);
+		lblNewLabel_age.setAlignment(SWT.CENTER);
+		lblNewLabel_age.setText("年龄");
+		
+		
+		
+		text_age = new Text(composite_13, SWT.BORDER | SWT.CENTER);
+		
+		Label lblNewLabel_gender = new Label(composite_13, SWT.NONE);
+		lblNewLabel_gender.setText("性别");
+		lblNewLabel_gender.setAlignment(SWT.CENTER);
+		
+		text_gender = new Text(composite_13, SWT.BORDER | SWT.CENTER);
+		
+	
 		
 
 		createContents();
