@@ -1,5 +1,6 @@
 package org.enter;
 
+import java.time.LocalDate;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -8,22 +9,18 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.wb.swt.SWTResourceManager;
+
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormAttachment;
-import swing2swt.layout.BorderLayout;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.List;
 
 /*主界面*/
 
@@ -34,6 +31,9 @@ public class Main extends Shell {
 	private Text text_roomtype;
 	private Text text_age;
 	private Text text_gender;
+	private Text text_birth;
+	private Text text;
+	private Text text_1;
 
 	/**
 	 * Launch the application.
@@ -215,6 +215,7 @@ public class Main extends Shell {
 		lblNewLabel.setText("酒店管理系统");
 		
 		Label lblNewLabel_warn = new Label(composite_1, SWT.CENTER);
+		lblNewLabel_warn.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_warn.setLayoutData(new RowData(242, 32));
 		lblNewLabel_warn.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		lblNewLabel_warn.setText("");
@@ -231,31 +232,63 @@ public class Main extends Shell {
 		composite_141.setLayout(new FillLayout(SWT.VERTICAL));
 		
 		Label lblNewLabel_name = new Label(composite_141, SWT.NONE);
+		lblNewLabel_name.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_name.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_name.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_name.setText("姓名");
 		lblNewLabel_name.setAlignment(SWT.CENTER);
 		
 		Label lblNewLabel_roomtype = new Label(composite_141, SWT.NONE);
+		lblNewLabel_roomtype.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_roomtype.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_roomtype.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_roomtype.setAlignment(SWT.CENTER);
 		lblNewLabel_roomtype.setText("房间类型");
 		
 		Label lblNewLabel_idnum = new Label(composite_141, SWT.NONE);
+		lblNewLabel_idnum.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_idnum.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_idnum.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_idnum.setText("身份证号");
 		lblNewLabel_idnum.setAlignment(SWT.CENTER);
 		
 		Label lblNewLabel_phone = new Label(composite_141, SWT.NONE);
+		lblNewLabel_phone.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_phone.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_phone.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_phone.setText("手机号");
 		lblNewLabel_phone.setAlignment(SWT.CENTER);
 		
+		Label lblNewLabel_phone_1 = new Label(composite_141, SWT.NONE);
+		lblNewLabel_phone_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_phone_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_phone_1.setText("成人数量");
+		lblNewLabel_phone_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		lblNewLabel_phone_1.setAlignment(SWT.CENTER);
+		
+		Label lblNewLabel_phone_1_1 = new Label(composite_141, SWT.NONE);
+		lblNewLabel_phone_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_phone_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_phone_1_1.setText("儿童数量");
+		lblNewLabel_phone_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		lblNewLabel_phone_1_1.setAlignment(SWT.CENTER);
+		
 		Label lblNewLabel_in = new Label(composite_141, SWT.NONE);
+		lblNewLabel_in.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_in.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_in.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_in.setText("入住时间");
 		lblNewLabel_in.setAlignment(SWT.CENTER);
 		
 		Label lblNewLabel_out = new Label(composite_141, SWT.NONE);
+		lblNewLabel_out.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_out.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_out.setText("离开时间");
 		lblNewLabel_out.setAlignment(SWT.CENTER);
+		lblNewLabel_out.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		
 		Label lblNewLabel_6 = new Label(composite_141, SWT.NONE);
-		lblNewLabel_6.setText("New Label");
+		lblNewLabel_6.setBackground(composite_141.getBackground());
 		lblNewLabel_6.setAlignment(SWT.CENTER);
 		
 		Composite composite_142 = new Composite(composite_14, SWT.NONE);
@@ -282,25 +315,81 @@ public class Main extends Shell {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				// TODO 自动生成的方法存根
-				String idnum=text_idnum.getText();
-				if(idnum.length()==18) {//身份证长度判断
-					if(idnum.charAt(16)%2==1)
-						text_gender.setText("男");
-					else
-						text_gender.setText("女");
-					String birth=idnum.substring(6, 14);
-					System.out.println(birth);
-				}else {//身份证长度不满足
-					lblNewLabel_warn.setText("身份证错误");
-					Runnable timer = new Runnable() {@Override public void run() {if(!isDisposed())lblNewLabel_warn.setText("");}};
-				Display.getDefault().timerExec(3000, timer);}
+				String idnum = text_idnum.getText();
+				if (idnum.length() == 18) // 身份证长度判断
+				{// 利用身份证校验码校验
+					int b[] = { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
+					int sum = 0;
+					for (int i = 0; i < 17; i++)
+						sum += (idnum.charAt(i) - 48) * b[i];
+					sum %= 11;
+					sum = 12 - sum;
+					if (sum == 12)
+						sum = 0;
+					if (sum == 11)
+						sum = 1;
+					// 校验位应该与sum相等，注意考虑sum==10时校验位为X
+					if (sum == idnum.charAt(17) - 48
+							|| (sum == 10 && (idnum.charAt(17) == 'X' || idnum.charAt(17) == 'x'))) {// 校验码通过
+						if (idnum.charAt(16) % 2 == 1)// 性别自动填入
+							text_gender.setText("男");
+						else
+							text_gender.setText("女");
+						String birth = idnum.substring(6, 14);
+						// 年龄自动填入
+						String birthyear = birth.substring(0, 4), birthmonth = birth.substring(4, 6),
+								birthday = birth.substring(6, 8);
+						int birthyearnum = Integer.parseInt(birthyear),
+								birthmonthnum = Integer.parseInt(birthmonth),
+								birthdaynum = Integer.parseInt(birthday);
+						text_birth.setText(birthyearnum + "-" + birthmonthnum + "-" + birthdaynum);
+						// 算年龄（周岁）
+						LocalDate date = LocalDate.now();
+						int nowyear = date.getYear(), nowmonth = date.getMonthValue(),
+								nowday = date.getDayOfMonth();
+						int age = nowyear - birthyearnum;
+						if (nowmonth > birthmonthnum) {
+						} else if (nowmonth < birthmonthnum)
+							age -= 1;
+						else {
+							if (nowday < birthdaynum)
+								age -= 1;
+						}
+						text_age.setText(Integer.toString(age));
+
+					} else {// 身份证校验码错误
+						lblNewLabel_warn.setText("身份证错误");
+						Runnable timer = new Runnable() {
+							@Override
+							public void run() {
+								if (!isDisposed())
+									lblNewLabel_warn.setText("");
+							}
+						};
+						Display.getDefault().timerExec(5000, timer);
+					}
+				} else {// 身份证长度不满足
+					lblNewLabel_warn.setText("身份证长度错误");
+					Runnable timer = new Runnable() {
+						@Override
+						public void run() {
+							if (!isDisposed())
+								lblNewLabel_warn.setText("");
+						}
+					};
+					Display.getDefault().timerExec(5000, timer);
+				}
 
 			}
-			 
+
 		 };
 		 text_idnum.addFocusListener(listener);
 		
 		text_phone = new Text(composite_142, SWT.BORDER);
+		
+		text = new Text(composite_142, SWT.BORDER);
+		
+		text_1 = new Text(composite_142, SWT.BORDER);
 		
 		DateTime dateTime_in = new DateTime(composite_142, SWT.BORDER);
 		
@@ -318,7 +407,15 @@ public class Main extends Shell {
 		btnNewButton_inputinfo.setText("确认");
 		composite_13.setLayout(new FillLayout(SWT.VERTICAL));
 		
+		Label lblNewLabel_birth = new Label(composite_13, SWT.NONE);
+		lblNewLabel_birth.setText("出生日期");
+		lblNewLabel_birth.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		lblNewLabel_birth.setAlignment(SWT.CENTER);
+		
+		text_birth = new Text(composite_13, SWT.BORDER | SWT.CENTER);
+		
 		Label lblNewLabel_age = new Label(composite_13, SWT.NONE);
+		lblNewLabel_age.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_age.setAlignment(SWT.CENTER);
 		lblNewLabel_age.setText("年龄");
 		
@@ -327,6 +424,7 @@ public class Main extends Shell {
 		text_age = new Text(composite_13, SWT.BORDER | SWT.CENTER);
 		
 		Label lblNewLabel_gender = new Label(composite_13, SWT.NONE);
+		lblNewLabel_gender.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_gender.setText("性别");
 		lblNewLabel_gender.setAlignment(SWT.CENTER);
 		

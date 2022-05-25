@@ -18,6 +18,7 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.RowData;
 
 
 
@@ -100,7 +101,7 @@ public class Enter {
 		fd_label_username.left = new FormAttachment(0, 274);
 		label_username.setLayoutData(fd_label_username);
 		label_username.setAlignment(SWT.CENTER);
-		label_username.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
+		label_username.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		label_username.setText("用户名");
 		
 		Label label_password = new Label(composite, SWT.NONE);
@@ -112,7 +113,7 @@ public class Enter {
 		fd_label_password.left = new FormAttachment(0, 274);
 		label_password.setLayoutData(fd_label_password);
 		label_password.setText("密码");
-		label_password.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
+		label_password.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		label_password.setAlignment(SWT.CENTER);
 		
 		Label label_title = new Label(composite, SWT.NONE);
@@ -157,6 +158,7 @@ public class Enter {
 				composite_Button.setLayout(rl_composite_Button);
 		
 		Button button_login = new Button(composite_Button, SWT.NONE);
+		button_login.setLayoutData(new RowData(77, SWT.DEFAULT));
 		button_login.setBounds(274, 338, 80, 27);
 		button_login.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -216,7 +218,7 @@ public class Enter {
 			}
 		});
 		
-		button_login.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
+		button_login.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
 		button_login.setText("登录");
 		
 		Button button_signup = new Button(composite_Button, SWT.NONE);
@@ -243,7 +245,7 @@ public class Enter {
 		
 
 		button_signup.setText("注册");
-		button_signup.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
+		button_signup.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
 		
 		
 

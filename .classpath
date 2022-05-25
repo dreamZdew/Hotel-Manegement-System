@@ -14,5 +14,11 @@
 	<classpathentry kind="lib" path="lib/mssql-jdbc-10.2.0.jre17.jar"/>
 	<classpathentry kind="lib" path="swing2swt.jar"/>
 	<classpathentry kind="lib" path="lib/swt.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dream/.p2/pool/plugins/org.eclipse.core.databinding_1.11.0.v20220118-1028.jar" sourcepath="C:/Users/dream/.p2/pool/plugins/org.eclipse.core.databinding_1.11.0.v20220118-1028.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dream/.p2/pool/plugins/org.eclipse.core.databinding.beans_1.8.0.v20210619-1111.jar" sourcepath="C:/Users/dream/.p2/pool/plugins/org.eclipse.core.databinding.beans_1.8.0.v20210619-1111.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dream/.p2/pool/plugins/org.eclipse.core.databinding.observable_1.12.0.v20211231-1006.jar" sourcepath="C:/Users/dream/.p2/pool/plugins/org.eclipse.core.databinding.observable_1.12.0.v20211231-1006.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dream/.p2/pool/plugins/org.eclipse.core.databinding.property_1.9.0.v20210619-1129.jar" sourcepath="C:/Users/dream/.p2/pool/plugins/org.eclipse.core.databinding.property_1.9.0.v20210619-1129.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dream/.p2/pool/plugins/org.eclipse.jface.databinding_1.13.0.v20210619-1146.jar" sourcepath="C:/Users/dream/.p2/pool/plugins/org.eclipse.jface.databinding_1.13.0.v20210619-1146.jar"/>
+	<classpathentry kind="lib" path="C:/Users/dream/.p2/pool/plugins/org.eclipse.equinox.common_3.16.0.v20220211-2322.jar" sourcepath="C:/Users/dream/.p2/pool/plugins/org.eclipse.equinox.common_3.16.0.v20220211-2322.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

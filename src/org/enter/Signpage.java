@@ -94,7 +94,7 @@ public class Signpage extends Shell {
 		fd_label_username.left = new FormAttachment(0, 274);
 		label_username.setLayoutData(fd_label_username);
 		label_username.setAlignment(SWT.CENTER);
-		label_username.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
+		label_username.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		label_username.setText("用户名");
 		
 		Label label_password = new Label(composite, SWT.NONE);
@@ -106,7 +106,7 @@ public class Signpage extends Shell {
 		fd_label_password.left = new FormAttachment(0, 274);
 		label_password.setLayoutData(fd_label_password);
 		label_password.setText("密码");
-		label_password.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
+		label_password.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		label_password.setAlignment(SWT.CENTER);
 		
 		Label warn = new Label(composite, SWT.NONE);
@@ -206,7 +206,7 @@ public class Signpage extends Shell {
 					}
 				});
 				button_tosign.setText("注册");
-				button_tosign.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
+				button_tosign.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
 				
 				Button button_returnenter = new Button(composite_Button, SWT.NONE);
 				button_returnenter.addSelectionListener(new SelectionAdapter() {
@@ -224,7 +224,7 @@ public class Signpage extends Shell {
 					}
 				});
 				button_returnenter.setText("返回");
-				button_returnenter.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
+				button_returnenter.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
 		
 
 
