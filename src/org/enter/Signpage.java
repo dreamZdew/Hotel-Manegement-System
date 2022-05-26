@@ -30,6 +30,7 @@ public class Signpage extends Shell {
 	private Text text_username;
 	private Text text_password;
 	private Connection conn;
+	private Text text_confirmpass;
 
 	/**
 	 * Launch the application.
@@ -73,65 +74,16 @@ public class Signpage extends Shell {
 		Composite composite = new Composite(this, SWT.NONE);
 		composite.setLayout(new FormLayout());
 
-		text_username = new Text(composite, SWT.BORDER);
-		FormData fd_text_username = new FormData();
-		fd_text_username.bottom = new FormAttachment(0, 222);
-		fd_text_username.right = new FormAttachment(0, 484);
-		fd_text_username.left = new FormAttachment(0, 358);
-		text_username.setLayoutData(fd_text_username);
-
-		text_password = new Text(composite, SWT.BORDER);
-		FormData fd_text_password = new FormData();
-		fd_text_password.bottom = new FormAttachment(0, 281);
-		fd_text_password.right = new FormAttachment(0, 484);
-		fd_text_password.left = new FormAttachment(0, 358);
-		text_password.setLayoutData(fd_text_password);
-
-		Label label_username = new Label(composite, SWT.NONE);
-		fd_text_username.top = new FormAttachment(label_username, 0, SWT.TOP);
-		FormData fd_label_username = new FormData();
-		fd_label_username.bottom = new FormAttachment(0, 231);
-		fd_label_username.right = new FormAttachment(0, 352);
-		fd_label_username.top = new FormAttachment(0, 199);
-		fd_label_username.left = new FormAttachment(0, 274);
-		label_username.setLayoutData(fd_label_username);
-		label_username.setAlignment(SWT.CENTER);
-		label_username.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
-		label_username.setText("用户名");
-
-		Label label_password = new Label(composite, SWT.NONE);
-		fd_text_password.top = new FormAttachment(label_password, 0, SWT.TOP);
-		FormData fd_label_password = new FormData();
-		fd_label_password.bottom = new FormAttachment(0, 290);
-		fd_label_password.right = new FormAttachment(0, 352);
-		fd_label_password.top = new FormAttachment(0, 258);
-		fd_label_password.left = new FormAttachment(0, 274);
-		label_password.setLayoutData(fd_label_password);
-		label_password.setText("密码");
-		label_password.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
-		label_password.setAlignment(SWT.CENTER);
-
 		Label warn = new Label(composite, SWT.NONE);
 		FormData fd_warn = new FormData();
-		fd_warn.bottom = new FormAttachment(0, 252);
-		fd_warn.right = new FormAttachment(0, 658);
-		fd_warn.top = new FormAttachment(0, 229);
-		fd_warn.left = new FormAttachment(0, 119);
+		fd_warn.bottom = new FormAttachment(0, 313);
+		fd_warn.right = new FormAttachment(0, 650);
+		fd_warn.top = new FormAttachment(0, 290);
+		fd_warn.left = new FormAttachment(0, 128);
 		warn.setLayoutData(fd_warn);
 		warn.setAlignment(SWT.CENTER);
 		warn.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		warn.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
-
-		Label label_tip = new Label(composite, SWT.WRAP | SWT.CENTER);
-		FormData fd_label_tip = new FormData();
-		fd_label_tip.top = new FormAttachment(0, 10);
-		fd_label_tip.left = new FormAttachment(0, 58);
-		fd_label_tip.bottom = new FormAttachment(0, 177);
-		fd_label_tip.right = new FormAttachment(0, 719);
-		label_tip.setLayoutData(fd_label_tip);
-		label_tip.setFont(SWTResourceManager.getFont("黑体", 25, SWT.NORMAL));
-		label_tip.setAlignment(SWT.CENTER);
-		label_tip.setText("用户名为五字符以上的字母数字下划线组合，密码不少于6位");
 
 		Composite composite_Button = new Composite(composite, SWT.NONE);
 		FormData fd_composite_Button = new FormData();
@@ -172,7 +124,7 @@ public class Signpage extends Shell {
 					String sqlQuery;
 					try {// 与已有用户名比较，防止重复
 						Stmt = conn.createStatement();
-						sqlQuery = "select 用户名 from UserPass where 用户名=" + username + "";// 查询指令
+						sqlQuery = "select 用户名 from UserPass where 用户名= '" + username + "' ";// 查询指令
 						Boolean cansign = true;
 						ResultSet rs = Stmt.executeQuery(sqlQuery);
 						while (rs.next()) {
@@ -192,8 +144,23 @@ public class Signpage extends Shell {
 								break;
 							}
 						}
-						if (cansign.equals(true)) {// 满足注册条件，写入数据库
-							sqlQuery = "use HMS insert into UserPass values(" + username + "," + password + ")";// 写入数据库指令
+						String confirmpass = text_confirmpass.getText();
+						if (!confirmpass.equals(password)) {
+							cansign = false;
+							warn.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+							warn.setText("两次密码不一致，注册失败");
+							text_username.setFocus();
+							Runnable timer = new Runnable() {
+								@Override
+								public void run() {
+									if (!isDisposed())
+										warn.setText("");
+								}
+							};
+							Display.getDefault().timerExec(3000, timer);
+						}
+						if (cansign == true) {// 满足注册条件，写入数据库
+							sqlQuery = " insert into UserPass values( '" + username + "','" + password + "')";// 写入数据库指令
 							Stmt.executeUpdate(sqlQuery);
 							warn.setForeground(SWTResourceManager.getColor(SWT.COLOR_GREEN));
 							warn.setText("注册成功");
@@ -210,6 +177,7 @@ public class Signpage extends Shell {
 					} catch (SQLException ee) {
 						warn.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 						warn.setText("无法连接到服务器");
+						ee.printStackTrace();
 					}
 
 				}
@@ -236,6 +204,71 @@ public class Signpage extends Shell {
 		});
 		button_returnenter.setText("返回");
 		button_returnenter.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
+
+		Label label_tip = new Label(composite, SWT.WRAP | SWT.CENTER);
+		FormData fd_label_tip = new FormData();
+		fd_label_tip.bottom = new FormAttachment(0, 151);
+		fd_label_tip.right = new FormAttachment(0, 722);
+		fd_label_tip.top = new FormAttachment(0, 10);
+		fd_label_tip.left = new FormAttachment(0, 61);
+		label_tip.setLayoutData(fd_label_tip);
+		label_tip.setFont(SWTResourceManager.getFont("黑体", 25, SWT.NORMAL));
+		label_tip.setAlignment(SWT.CENTER);
+		label_tip.setText("用户名为五字符以上，密码不少于6位");
+
+		Composite composite_1 = new Composite(composite, SWT.NONE);
+		FormData fd_composite_1 = new FormData();
+		fd_composite_1.top = new FormAttachment(label_tip, 5);
+		fd_composite_1.left = new FormAttachment(0, 270);
+		fd_composite_1.bottom = new FormAttachment(0, 273);
+		fd_composite_1.right = new FormAttachment(0, 514);
+		composite_1.setLayoutData(fd_composite_1);
+		composite_1.setLayout(new FillLayout(SWT.VERTICAL));
+
+		Composite composite_2 = new Composite(composite_1, SWT.NONE);
+		RowLayout rl_composite_2 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_2.center = true;
+		rl_composite_2.justify = true;
+		composite_2.setLayout(rl_composite_2);
+
+		Label label_username = new Label(composite_2, SWT.NONE);
+		label_username.setLayoutData(new RowData(75, 30));
+		label_username.setAlignment(SWT.CENTER);
+		label_username.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		label_username.setText("用户名");
+
+		text_username = new Text(composite_2, SWT.BORDER);
+		text_username.setLayoutData(new RowData(130, SWT.DEFAULT));
+
+		Composite composite_2_1 = new Composite(composite_1, SWT.NONE);
+		RowLayout rl_composite_2_1 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_2_1.center = true;
+		rl_composite_2_1.justify = true;
+		composite_2_1.setLayout(rl_composite_2_1);
+
+		Label label_password = new Label(composite_2_1, SWT.NONE);
+		label_password.setLayoutData(new RowData(75, 30));
+		label_password.setText("密码");
+		label_password.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		label_password.setAlignment(SWT.CENTER);
+
+		text_password = new Text(composite_2_1, SWT.BORDER);
+		text_password.setLayoutData(new RowData(130, SWT.DEFAULT));
+
+		Composite composite_2_1_1 = new Composite(composite_1, SWT.NONE);
+		RowLayout rl_composite_2_1_1 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_2_1_1.justify = true;
+		rl_composite_2_1_1.center = true;
+		composite_2_1_1.setLayout(rl_composite_2_1_1);
+
+		Label label_confirmpass = new Label(composite_2_1_1, SWT.NONE);
+		label_confirmpass.setLayoutData(new RowData(75, 30));
+		label_confirmpass.setText("确认密码");
+		label_confirmpass.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		label_confirmpass.setAlignment(SWT.CENTER);
+
+		text_confirmpass = new Text(composite_2_1_1, SWT.BORDER);
+		text_confirmpass.setLayoutData(new RowData(130, SWT.DEFAULT));
 
 	}
 

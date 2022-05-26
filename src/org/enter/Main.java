@@ -296,6 +296,7 @@ public class Main extends Shell {
 		composite_142.setLayout(new FillLayout(SWT.VERTICAL));
 
 		Composite composite_13 = new Composite(composite_14, SWT.NONE);
+		composite_13.setLayoutData(new RowData(90, SWT.DEFAULT));
 		composite_13.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 
 		text_name = new Text(composite_142, SWT.BORDER);
