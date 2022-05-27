@@ -5,9 +5,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -126,14 +125,16 @@ public class Enter {
 					try {// 此处数据库参考数据库课本P190
 
 						conn = AboutDB.loginDB();
-						Statement Stmt = conn.createStatement();
-						String sqlQuery = "select 用户名,密码 from UserPass where 用户名='"+username+"' and 密码 = '" + password
-								+ "' ";// 查询指令
-						ResultSet rs = Stmt.executeQuery(sqlQuery);
+						PreparedStatement prep = conn
+								.prepareStatement("select 用户名,密码 from UserPass where 用户名= ? and 密码 = ? ");
+						prep.setString(1, username);
+						prep.setString(2, password);
+						ResultSet rs = prep.executeQuery();
+
 						while (rs.next()) {
 							if (username.equals(rs.getString(1)) && password.equals(rs.getString(2))) {// 登录判定
 								rs.close();
-								Stmt.close();
+								prep.close();
 								conn.close();
 								shell.close();
 
@@ -219,7 +220,7 @@ public class Enter {
 
 		button_signup.setText("注册");
 		button_signup.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
-		
+
 		Composite composite_1 = new Composite(composite, SWT.NONE);
 		FormData fd_composite_1 = new FormData();
 		fd_composite_1.bottom = new FormAttachment(0, 248);
@@ -228,36 +229,36 @@ public class Enter {
 		fd_composite_1.left = new FormAttachment(0, 280);
 		composite_1.setLayoutData(fd_composite_1);
 		composite_1.setLayout(new FillLayout(SWT.VERTICAL));
-		
+
 		Composite composite_2 = new Composite(composite_1, SWT.NONE);
-				RowLayout rl_composite_2 = new RowLayout(SWT.HORIZONTAL);
-				rl_composite_2.justify = true;
-				rl_composite_2.center = true;
-				composite_2.setLayout(rl_composite_2);
-		
-				Label label_username = new Label(composite_2, SWT.NONE);
-				label_username.setLayoutData(new RowData(50, 30));
-				label_username.setAlignment(SWT.CENTER);
-				label_username.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
-				label_username.setText("用户名");
-				
-						text_username = new Text(composite_2, SWT.BORDER);
-						text_username.setLayoutData(new RowData(130, SWT.DEFAULT));
-		
+		RowLayout rl_composite_2 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_2.justify = true;
+		rl_composite_2.center = true;
+		composite_2.setLayout(rl_composite_2);
+
+		Label label_username = new Label(composite_2, SWT.NONE);
+		label_username.setLayoutData(new RowData(50, 30));
+		label_username.setAlignment(SWT.CENTER);
+		label_username.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		label_username.setText("用户名");
+
+		text_username = new Text(composite_2, SWT.BORDER);
+		text_username.setLayoutData(new RowData(130, SWT.DEFAULT));
+
 		Composite composite_3 = new Composite(composite_1, SWT.NONE);
-				RowLayout rl_composite_3 = new RowLayout(SWT.HORIZONTAL);
-				rl_composite_3.center = true;
-				rl_composite_3.justify = true;
-				composite_3.setLayout(rl_composite_3);
-		
-				Label label_password = new Label(composite_3, SWT.NONE);
-				label_password.setLayoutData(new RowData(50, 30));
-				label_password.setText("密码");
-				label_password.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
-				label_password.setAlignment(SWT.CENTER);
-				
-						text_password = new Text(composite_3, SWT.BORDER);
-						text_password.setLayoutData(new RowData(130, SWT.DEFAULT));
+		RowLayout rl_composite_3 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_3.center = true;
+		rl_composite_3.justify = true;
+		composite_3.setLayout(rl_composite_3);
+
+		Label label_password = new Label(composite_3, SWT.NONE);
+		label_password.setLayoutData(new RowData(50, 30));
+		label_password.setText("密码");
+		label_password.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		label_password.setAlignment(SWT.CENTER);
+
+		text_password = new Text(composite_3, SWT.BORDER);
+		text_password.setLayoutData(new RowData(130, SWT.DEFAULT));
 
 	}
 }

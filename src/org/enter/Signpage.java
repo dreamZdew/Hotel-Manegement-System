@@ -1,10 +1,9 @@
 package org.enter;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -120,13 +119,12 @@ public class Signpage extends Shell {
 					Display.getDefault().timerExec(3000, timer);
 				} else {
 					conn = AboutDB.loginDB();
-					Statement Stmt;
-					String sqlQuery;
 					try {// 与已有用户名比较，防止重复
-						Stmt = conn.createStatement();
-						sqlQuery = "select 用户名 from UserPass where 用户名= '" + username + "' ";// 查询指令
+
+						PreparedStatement prep = conn.prepareStatement("select 用户名 from UserPass where 用户名= ? ");
+						prep.setString(1, username);
 						Boolean cansign = true;
-						ResultSet rs = Stmt.executeQuery(sqlQuery);
+						ResultSet rs = prep.executeQuery();
 						while (rs.next()) {
 							if (username.equals(rs.getString(1))) {// 用户名重复
 								warn.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
@@ -160,8 +158,11 @@ public class Signpage extends Shell {
 							Display.getDefault().timerExec(3000, timer);
 						}
 						if (cansign == true) {// 满足注册条件，写入数据库
-							sqlQuery = " insert into UserPass values( '" + username + "','" + password + "')";// 写入数据库指令
-							Stmt.executeUpdate(sqlQuery);
+
+							prep = conn.prepareStatement(" insert into UserPass values( ?, ?)");// 写入数据库指令
+							prep.setString(1, username);
+							prep.setString(2, password);
+							prep.executeUpdate();
 							warn.setForeground(SWTResourceManager.getColor(SWT.COLOR_GREEN));
 							warn.setText("注册成功");
 							Runnable timer = new Runnable() {
@@ -172,6 +173,9 @@ public class Signpage extends Shell {
 								}
 							};
 							Display.getDefault().timerExec(3000, timer);
+							prep.close();
+							conn.close();
+							rs.close();
 						}
 
 					} catch (SQLException ee) {
