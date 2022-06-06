@@ -20,6 +20,10 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 
 /*主界面*/
 
@@ -27,12 +31,11 @@ public class Main extends Shell {
 	private Text text_name;
 	private Text text_idnum;
 	private Text text_phone;
-	private Text text_roomtype;
 	private Text text_age;
 	private Text text_gender;
 	private Text text_birth;
-	private Text text;
-	private Text text_1;
+	private Text text_adult;
+	private Text text_child;
 	private Text text_2;
 	private Text text_4;
 	private Text text_5;
@@ -45,6 +48,8 @@ public class Main extends Shell {
 	private Text text_11;
 	private Text text_12;
 	private Text text_13;
+	private Table table;
+	private Text text_14;
 
 	/**
 	 * Launch the application.
@@ -105,14 +110,14 @@ public class Main extends Shell {
 		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		final StackLayout stackLayoutfor2 = new StackLayout();
 		composite_2.setLayout(stackLayoutfor2);
-		
+
 		Composite composite_21 = new Composite(composite_2, SWT.NONE);
 		composite_21.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		RowLayout rl_composite_21 = new RowLayout(SWT.VERTICAL);
 		rl_composite_21.justify = true;
 		rl_composite_21.center = true;
 		composite_21.setLayout(rl_composite_21);
-		
+
 		Label lblNewLabel_1 = new Label(composite_21, SWT.WRAP);
 		lblNewLabel_1.setLayoutData(new RowData(634, -1));
 		lblNewLabel_1.setText("\u968F\u884C\u4EBA\u5458\u767B\u8BB0");
@@ -120,102 +125,102 @@ public class Main extends Shell {
 		lblNewLabel_1.setFont(SWTResourceManager.getFont("黑体", 30, SWT.NORMAL));
 		lblNewLabel_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		lblNewLabel_1.setAlignment(SWT.CENTER);
-		
+
 		Label lblNewLabel_warn_1 = new Label(composite_21, SWT.CENTER);
 		lblNewLabel_warn_1.setLayoutData(new RowData(294, 32));
 		lblNewLabel_warn_1.setText("");
 		lblNewLabel_warn_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		lblNewLabel_warn_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_warn_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-		
+
 		Composite composite_211 = new Composite(composite_21, SWT.NONE);
 		composite_211.setLayoutData(new RowData(SWT.DEFAULT, 182));
 		composite_211.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		composite_211.setLayout(new RowLayout(SWT.HORIZONTAL));
-		
+
 		Composite composite_2111 = new Composite(composite_211, SWT.NONE);
 		composite_2111.setLayoutData(new RowData(-1, 159));
 		composite_2111.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		composite_2111.setLayout(new FillLayout(SWT.VERTICAL));
-		
+
 		Label lblNewLabel_name_1 = new Label(composite_2111, SWT.NONE);
 		lblNewLabel_name_1.setText("\u59D3\u540D");
 		lblNewLabel_name_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_name_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_name_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		lblNewLabel_name_1.setAlignment(SWT.CENTER);
-		
+
 		Label lblNewLabel_idnum_1 = new Label(composite_2111, SWT.NONE);
 		lblNewLabel_idnum_1.setText("\u8EAB\u4EFD\u8BC1\u53F7");
 		lblNewLabel_idnum_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_idnum_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_idnum_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		lblNewLabel_idnum_1.setAlignment(SWT.CENTER);
-		
+
 		Label lblNewLabel_phone_2 = new Label(composite_2111, SWT.NONE);
 		lblNewLabel_phone_2.setText("\u624B\u673A\u53F7");
 		lblNewLabel_phone_2.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_phone_2.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_phone_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		lblNewLabel_phone_2.setAlignment(SWT.CENTER);
-		
+
 		Label lblNewLabel_6_1 = new Label(composite_2111, SWT.NONE);
 		lblNewLabel_6_1.setBackground(SWTResourceManager.getColor(0, 120, 215));
 		lblNewLabel_6_1.setAlignment(SWT.CENTER);
-		
+
 		Composite composite_2112 = new Composite(composite_211, SWT.NONE);
 		composite_2112.setLayoutData(new RowData(238, 158));
 		composite_2112.setLayout(new FillLayout(SWT.VERTICAL));
-		
+
 		text_2 = new Text(composite_2112, SWT.BORDER);
-		
+
 		text_4 = new Text(composite_2112, SWT.BORDER);
-		
+
 		text_5 = new Text(composite_2112, SWT.BORDER);
-		
+
 		Button btnNewButton_inputinfo_1 = new Button(composite_2112, SWT.NONE);
 		btnNewButton_inputinfo_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+
 			}
 		});
 		btnNewButton_inputinfo_1.setText("\u786E\u8BA4");
 		btnNewButton_inputinfo_1.setFont(SWTResourceManager.getFont("黑体", 14, SWT.NORMAL));
-		
+
 		Composite composite_2113 = new Composite(composite_211, SWT.NONE);
 		composite_2113.setLayoutData(new RowData(90, -1));
 		composite_2113.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		composite_2113.setLayout(new FillLayout(SWT.VERTICAL));
-		
+
 		Label lblNewLabel_birth_1 = new Label(composite_2113, SWT.NONE);
 		lblNewLabel_birth_1.setText("\u51FA\u751F\u65E5\u671F");
 		lblNewLabel_birth_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_birth_1.setAlignment(SWT.CENTER);
-		
+
 		text_8 = new Text(composite_2113, SWT.BORDER | SWT.CENTER);
-		
+
 		Label lblNewLabel_age_1 = new Label(composite_2113, SWT.NONE);
 		lblNewLabel_age_1.setText("\u5E74\u9F84");
 		lblNewLabel_age_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_age_1.setAlignment(SWT.CENTER);
-		
+
 		text_9 = new Text(composite_2113, SWT.BORDER | SWT.CENTER);
-		
+
 		Label lblNewLabel_gender_1 = new Label(composite_2113, SWT.NONE);
 		lblNewLabel_gender_1.setText("\u6027\u522B");
 		lblNewLabel_gender_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_gender_1.setAlignment(SWT.CENTER);
-		
+
 		text_10 = new Text(composite_2113, SWT.BORDER | SWT.CENTER);
-		
+
 		Composite composite_22 = new Composite(composite_2, SWT.NONE);
 		composite_22.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		RowLayout rl_composite_22 = new RowLayout(SWT.VERTICAL);
 		rl_composite_22.justify = true;
 		rl_composite_22.center = true;
 		composite_22.setLayout(rl_composite_22);
-		
+
 		Label lblNewLabel_1_1 = new Label(composite_22, SWT.WRAP);
 		lblNewLabel_1_1.setLayoutData(new RowData(634, -1));
 		lblNewLabel_1_1.setText("\u968F\u884C\u4EBA\u5458\u767B\u8BB0");
@@ -223,91 +228,145 @@ public class Main extends Shell {
 		lblNewLabel_1_1.setFont(SWTResourceManager.getFont("黑体", 30, SWT.NORMAL));
 		lblNewLabel_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		lblNewLabel_1_1.setAlignment(SWT.CENTER);
-		
+
 		Label lblNewLabel_warn_1_1 = new Label(composite_22, SWT.CENTER);
 		lblNewLabel_warn_1_1.setLayoutData(new RowData(294, 32));
 		lblNewLabel_warn_1_1.setText("");
 		lblNewLabel_warn_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		lblNewLabel_warn_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_warn_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-		
+
 		Composite composite_211_1 = new Composite(composite_22, SWT.NONE);
 		composite_211_1.setLayoutData(new RowData(-1, 182));
 		composite_211_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		composite_211_1.setLayout(new RowLayout(SWT.HORIZONTAL));
-		
+
 		Composite composite_2111_1 = new Composite(composite_211_1, SWT.NONE);
 		composite_2111_1.setLayoutData(new RowData(-1, 159));
 		composite_2111_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		composite_2111_1.setLayout(new FillLayout(SWT.VERTICAL));
-		
+
 		Label lblNewLabel_name_1_1 = new Label(composite_2111_1, SWT.NONE);
 		lblNewLabel_name_1_1.setText("\u59D3\u540D");
 		lblNewLabel_name_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_name_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_name_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		lblNewLabel_name_1_1.setAlignment(SWT.CENTER);
-		
+
 		Label lblNewLabel_idnum_1_1 = new Label(composite_2111_1, SWT.NONE);
 		lblNewLabel_idnum_1_1.setText("\u8EAB\u4EFD\u8BC1\u53F7");
 		lblNewLabel_idnum_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_idnum_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_idnum_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		lblNewLabel_idnum_1_1.setAlignment(SWT.CENTER);
-		
+
 		Label lblNewLabel_phone_2_1 = new Label(composite_2111_1, SWT.NONE);
 		lblNewLabel_phone_2_1.setText("\u624B\u673A\u53F7");
 		lblNewLabel_phone_2_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_phone_2_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_phone_2_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		lblNewLabel_phone_2_1.setAlignment(SWT.CENTER);
-		
+
 		Label lblNewLabel_6_1_1 = new Label(composite_2111_1, SWT.NONE);
 		lblNewLabel_6_1_1.setBackground(SWTResourceManager.getColor(0, 120, 215));
 		lblNewLabel_6_1_1.setAlignment(SWT.CENTER);
-		
+
 		Composite composite_2112_1 = new Composite(composite_211_1, SWT.NONE);
 		composite_2112_1.setLayoutData(new RowData(238, 158));
 		composite_2112_1.setLayout(new FillLayout(SWT.VERTICAL));
-		
+
 		text_3 = new Text(composite_2112_1, SWT.BORDER);
-		
+
 		text_6 = new Text(composite_2112_1, SWT.BORDER);
-		
+
 		text_7 = new Text(composite_2112_1, SWT.BORDER);
-		
+
 		Button btnNewButton_inputinfo_1_1 = new Button(composite_2112_1, SWT.NONE);
 		btnNewButton_inputinfo_1_1.setText("\u786E\u8BA4");
 		btnNewButton_inputinfo_1_1.setFont(SWTResourceManager.getFont("黑体", 14, SWT.NORMAL));
-		
+
 		Composite composite_2113_1 = new Composite(composite_211_1, SWT.NONE);
 		composite_2113_1.setLayoutData(new RowData(90, -1));
 		composite_2113_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		composite_2113_1.setLayout(new FillLayout(SWT.VERTICAL));
-		
+
 		Label lblNewLabel_birth_1_1 = new Label(composite_2113_1, SWT.NONE);
 		lblNewLabel_birth_1_1.setText("\u51FA\u751F\u65E5\u671F");
 		lblNewLabel_birth_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_birth_1_1.setAlignment(SWT.CENTER);
-		
+
 		text_11 = new Text(composite_2113_1, SWT.BORDER | SWT.CENTER);
-		
+
 		Label lblNewLabel_age_1_1 = new Label(composite_2113_1, SWT.NONE);
 		lblNewLabel_age_1_1.setText("\u5E74\u9F84");
 		lblNewLabel_age_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_age_1_1.setAlignment(SWT.CENTER);
-		
+
 		text_12 = new Text(composite_2113_1, SWT.BORDER | SWT.CENTER);
-		
+
 		Label lblNewLabel_gender_1_1 = new Label(composite_2113_1, SWT.NONE);
 		lblNewLabel_gender_1_1.setText("\u6027\u522B");
 		lblNewLabel_gender_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_gender_1_1.setAlignment(SWT.CENTER);
-		
+
 		text_13 = new Text(composite_2113_1, SWT.BORDER | SWT.CENTER);
 
 		Composite composite_3 = new Composite(composite_MainofMain, SWT.NONE);
 		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		RowLayout rl_composite_3 = new RowLayout(SWT.VERTICAL);
+		rl_composite_3.center = true;
+		rl_composite_3.justify = true;
+		composite_3.setLayout(rl_composite_3);
+
+		Composite composite_8 = new Composite(composite_3, SWT.NONE);
+		composite_8.setLayout(new RowLayout(SWT.HORIZONTAL));
+		composite_8.setLayoutData(new RowData(288, SWT.DEFAULT));
+		composite_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+
+		Label lblNewLabel_2 = new Label(composite_8, SWT.NONE);
+		lblNewLabel_2.setAlignment(SWT.CENTER);
+		lblNewLabel_2.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_2.setText("订单号");
+		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+
+		text_14 = new Text(composite_8, SWT.BORDER);
+		text_14.setLayoutData(new RowData(212, SWT.DEFAULT));
+
+		table = new Table(composite_3, SWT.FULL_SELECTION);
+		table.setLinesVisible(true);
+		table.setHeaderVisible(true);
+		table.setLayoutData(new RowData(593, 195));
+
+		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
+		tblclmnNewColumn.setWidth(100);
+		tblclmnNewColumn.setText("姓名");
+
+		TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.NONE);
+		tblclmnNewColumn_1.setWidth(100);
+		tblclmnNewColumn_1.setText("房间号");
+
+		TableColumn tblclmnNewColumn_2 = new TableColumn(table, SWT.NONE);
+		tblclmnNewColumn_2.setWidth(125);
+		tblclmnNewColumn_2.setText("手机号");
+
+		TableColumn tblclmnNewColumn_3 = new TableColumn(table, SWT.NONE);
+		tblclmnNewColumn_3.setWidth(200);
+		tblclmnNewColumn_3.setText("身份证号");
+
+		Composite composite_8_1 = new Composite(composite_3, SWT.NONE);
+		composite_8_1.setLayoutData(new RowData(406, 50));
+		composite_8_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		RowLayout rl_composite_8_1 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_8_1.justify = true;
+		composite_8_1.setLayout(rl_composite_8_1);
+
+		Button btnNewButton_inputinfo_1_2 = new Button(composite_8_1, SWT.NONE);
+		btnNewButton_inputinfo_1_2.setText("确认");
+		btnNewButton_inputinfo_1_2.setFont(SWTResourceManager.getFont("黑体", 14, SWT.NORMAL));
+
+		Button btnNewButton_inputinfo_1_2_1 = new Button(composite_8_1, SWT.NONE);
+		btnNewButton_inputinfo_1_2_1.setText("删除");
+		btnNewButton_inputinfo_1_2_1.setFont(SWTResourceManager.getFont("黑体", 14, SWT.NORMAL));
 
 		Composite composite_4 = new Composite(composite_MainofMain, SWT.NONE);
 		composite_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
@@ -343,7 +402,7 @@ public class Main extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				stackLayoutforMain.topControl = composite_2;
 				composite_MainofMain.layout();
-				stackLayoutfor2.topControl =composite_21;
+				stackLayoutfor2.topControl = composite_21;
 				composite_2.layout();
 			}
 		});
@@ -474,19 +533,19 @@ public class Main extends Shell {
 		lblNewLabel_phone.setText("手机号");
 		lblNewLabel_phone.setAlignment(SWT.CENTER);
 
-		Label lblNewLabel_phone_1 = new Label(composite_111, SWT.NONE);
-		lblNewLabel_phone_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblNewLabel_phone_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-		lblNewLabel_phone_1.setText("成人数量");
-		lblNewLabel_phone_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
-		lblNewLabel_phone_1.setAlignment(SWT.CENTER);
+		Label lblNewLabel_adult = new Label(composite_111, SWT.NONE);
+		lblNewLabel_adult.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_adult.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_adult.setText("成人数量");
+		lblNewLabel_adult.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		lblNewLabel_adult.setAlignment(SWT.CENTER);
 
-		Label lblNewLabel_phone_1_1 = new Label(composite_111, SWT.NONE);
-		lblNewLabel_phone_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblNewLabel_phone_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-		lblNewLabel_phone_1_1.setText("儿童数量");
-		lblNewLabel_phone_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
-		lblNewLabel_phone_1_1.setAlignment(SWT.CENTER);
+		Label lblNewLabel_child = new Label(composite_111, SWT.NONE);
+		lblNewLabel_child.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_child.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_child.setText("儿童数量");
+		lblNewLabel_child.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		lblNewLabel_child.setAlignment(SWT.CENTER);
 
 		Label lblNewLabel_in = new Label(composite_111, SWT.NONE);
 		lblNewLabel_in.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -511,16 +570,16 @@ public class Main extends Shell {
 		composite_112.setLayout(new FillLayout(SWT.VERTICAL));
 
 		Composite composite_113 = new Composite(composite_11, SWT.NONE);
-		composite_113.setLayoutData(new RowData(90, SWT.DEFAULT));
+		composite_113.setLayoutData(new RowData(99, SWT.DEFAULT));
 		composite_113.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 
 		text_name = new Text(composite_112, SWT.BORDER);
 
-		text_roomtype = new Text(composite_112, SWT.BORDER);
+		Combo combo_roomtype = new Combo(composite_112, SWT.NONE);
 
 		text_idnum = new Text(composite_112, SWT.BORDER);
 
-		FocusListener listener = new FocusListener() {
+		FocusListener idnum_listener = new FocusListener() {
 
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -531,14 +590,14 @@ public class Main extends Shell {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				// TODO 自动生成的方法存根
-				Idnumber idnumber=new Idnumber();
-				idnumber.idnum=text_idnum.getText();
-				if(idnumber.islegal(idnumber.idnum)) {
+				Idnumber idnumber = new Idnumber();
+				idnumber.idnum = text_idnum.getText();
+				if (idnumber.islegal(idnumber.idnum)) {
 					text_gender.setText(idnumber.gender);
 					text_birth.setText(idnumber.birth);
 					text_age.setText(idnumber.sage);
 				}
-					
+
 				else {
 					lblNewLabel_warn.setText("身份证错误");
 					Runnable timer = new Runnable() {
@@ -552,15 +611,16 @@ public class Main extends Shell {
 				}
 			}
 		};
-				
 
-		text_idnum.addFocusListener(listener);
+		text_idnum.addFocusListener(idnum_listener);
 
 		text_phone = new Text(composite_112, SWT.BORDER);
 
-		text = new Text(composite_112, SWT.BORDER);
+		text_adult = new Text(composite_112, SWT.BORDER);
+		text_adult.setText("1");
 
-		text_1 = new Text(composite_112, SWT.BORDER);
+		text_child = new Text(composite_112, SWT.BORDER);
+		text_child.setText("0");
 
 		DateTime dateTime_in = new DateTime(composite_112, SWT.BORDER);
 
@@ -571,7 +631,17 @@ public class Main extends Shell {
 		btnNewButton_inputinfo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				String name = text_name.getText();
+				String roomtype = combo_roomtype.getText();
+				String idnum = text_idnum.getText();
+				String phone = text_phone.getText();
 
+				if ((!text_adult.getText().equals("")) && (!text_child.equals(""))) {
+					int adultnum = Integer.parseInt(text_adult.getText());
+					int childnum = Integer.parseInt(text_child.getText());
+				}
+				String time_in = dateTime_in.toString();
+				System.out.println(time_in);
 			}
 		});
 		btnNewButton_inputinfo.setText("确认");
