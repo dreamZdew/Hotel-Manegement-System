@@ -1,10 +1,13 @@
 package org.enter;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.layout.RowData;
@@ -22,6 +25,7 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -51,7 +55,6 @@ public class Main extends Shell {
 	private Text text_12;
 	private Text text_13;
 	private Table table;
-	private Text text_14;
 
 	/**
 	 * Launch the application.
@@ -320,19 +323,23 @@ public class Main extends Shell {
 		rl_composite_3.justify = true;
 		composite_3.setLayout(rl_composite_3);
 
-		Composite composite_8 = new Composite(composite_3, SWT.NONE);
-		composite_8.setLayout(new RowLayout(SWT.HORIZONTAL));
-		composite_8.setLayoutData(new RowData(288, SWT.DEFAULT));
-		composite_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		Composite composite_31 = new Composite(composite_3, SWT.NONE);
+		RowLayout rl_composite_31 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_31.wrap = false;
+		composite_31.setLayout(rl_composite_31);
+		composite_31.setLayoutData(new RowData(288, SWT.DEFAULT));
+		composite_31.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 
-		Label lblNewLabel_2 = new Label(composite_8, SWT.NONE);
+		Label lblNewLabel_2 = new Label(composite_31, SWT.NONE);
 		lblNewLabel_2.setAlignment(SWT.CENTER);
 		lblNewLabel_2.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_2.setText("订单号");
 		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-
-		text_14 = new Text(composite_8, SWT.BORDER);
-		text_14.setLayoutData(new RowData(212, SWT.DEFAULT));
+		
+		Label showordernum = new Label(composite_31, SWT.NONE);
+		showordernum.setLayoutData(new RowData(242, SWT.DEFAULT));
+		showordernum.setText("");showordernum.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		showordernum.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 
 		table = new Table(composite_3, SWT.FULL_SELECTION);
 		table.setLinesVisible(true);
@@ -355,18 +362,18 @@ public class Main extends Shell {
 		tblclmnNewColumn_3.setWidth(200);
 		tblclmnNewColumn_3.setText("身份证号");
 
-		Composite composite_8_1 = new Composite(composite_3, SWT.NONE);
-		composite_8_1.setLayoutData(new RowData(406, 50));
-		composite_8_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-		RowLayout rl_composite_8_1 = new RowLayout(SWT.HORIZONTAL);
-		rl_composite_8_1.justify = true;
-		composite_8_1.setLayout(rl_composite_8_1);
+		Composite composite_32 = new Composite(composite_3, SWT.NONE);
+		composite_32.setLayoutData(new RowData(406, 50));
+		composite_32.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		RowLayout rl_composite_32 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_32.justify = true;
+		composite_32.setLayout(rl_composite_32);
 
-		Button btnNewButton_inputinfo_1_2 = new Button(composite_8_1, SWT.NONE);
+		Button btnNewButton_inputinfo_1_2 = new Button(composite_32, SWT.NONE);
 		btnNewButton_inputinfo_1_2.setText("确认");
 		btnNewButton_inputinfo_1_2.setFont(SWTResourceManager.getFont("黑体", 14, SWT.NORMAL));
 
-		Button btnNewButton_inputinfo_1_2_1 = new Button(composite_8_1, SWT.NONE);
+		Button btnNewButton_inputinfo_1_2_1 = new Button(composite_32, SWT.NONE);
 		btnNewButton_inputinfo_1_2_1.setText("删除");
 		btnNewButton_inputinfo_1_2_1.setFont(SWTResourceManager.getFont("黑体", 14, SWT.NORMAL));
 
@@ -591,30 +598,34 @@ public class Main extends Shell {
 					hascomboinit = true;
 				}
 			}
+			conn.close();
+			rs.close();
+			prep.close();
 		} catch (SQLException ee) {
 			ee.printStackTrace();
 		}
-		FocusListener roomtype_listener=new FocusListener() {
-			
+		FocusListener roomtype_listener = new FocusListener() {
+
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				// TODO 自动生成的方法存根
-				String roomtype=combo_roomtype.getText();
-				if(roomtype.contains("单人"))text_adult.setText("1");
-				else if(roomtype.contains("双人"))text_adult.setText("2");
-				else if(roomtype.contains("三人"))text_adult.setText("2");
-				
+				String roomtype = combo_roomtype.getText();
+				if (roomtype.contains("单人"))
+					text_adult.setText("1");
+				else if (roomtype.contains("双人"))
+					text_adult.setText("2");
+				else if (roomtype.contains("三人"))
+					text_adult.setText("3");
+
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent arg0) {
 				// TODO 自动生成的方法存根
-				
+
 			}
 		};
 		combo_roomtype.addFocusListener(roomtype_listener);
-		
-		
 
 		text_idnum = new Text(composite_112, SWT.BORDER);
 
@@ -660,47 +671,125 @@ public class Main extends Shell {
 
 		text_child = new Text(composite_112, SWT.BORDER);
 		text_child.setText("0");
-		
+
 		Composite composite_9 = new Composite(composite_112, SWT.NONE);
 		RowLayout rl_composite_9 = new RowLayout(SWT.HORIZONTAL);
 		rl_composite_9.wrap = false;
 		composite_9.setLayout(rl_composite_9);
 
-		DateTime dateTime_in = new DateTime(composite_9, SWT.BORDER);
-		dateTime_in.setLayoutData(new RowData(149, SWT.DEFAULT));
-		
-		DateTime dateTime = new DateTime(composite_9, SWT.BORDER | SWT.TIME | SWT.SHORT);
-		dateTime.setLayoutData(new RowData(80, SWT.DEFAULT));
-		
+		DateTime date_in = new DateTime(composite_9, SWT.BORDER);
+		date_in.setLayoutData(new RowData(149, SWT.DEFAULT));
+
+		DateTime time_in = new DateTime(composite_9, SWT.BORDER | SWT.TIME | SWT.SHORT);
+		time_in.setLayoutData(new RowData(80, SWT.DEFAULT));
+
 		Composite composite_10 = new Composite(composite_112, SWT.NONE);
 		composite_10.setLayout(new RowLayout(SWT.HORIZONTAL));
 
-		DateTime dateTime_out = new DateTime(composite_10, SWT.BORDER);
-		dateTime_out.setLayoutData(new RowData(149, SWT.DEFAULT));
-		
-		DateTime dateTime_1 = new DateTime(composite_10, SWT.BORDER | SWT.TIME | SWT.SHORT);
+		DateTime date_out = new DateTime(composite_10, SWT.BORDER);
+		date_out.setLayoutData(new RowData(149, SWT.DEFAULT));
+
+		DateTime time_out = new DateTime(composite_10, SWT.BORDER | SWT.TIME | SWT.SHORT);
+		time_out.setLayoutData(new RowData(80, SWT.DEFAULT));
 
 		Button btnNewButton_inputinfo = new Button(composite_112, SWT.NONE);
 		btnNewButton_inputinfo.setFont(SWTResourceManager.getFont("黑体", 14, SWT.NORMAL));
 		btnNewButton_inputinfo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//自动生成订单号，查询客户是否存在，若不存在则生产客户编码
-				String name = text_name.getText();
-				String roomtype = combo_roomtype.getText();
-				String idnum = text_idnum.getText();
-				String phone = text_phone.getText();
+				// 自动生成订单号，查询客户是否存在，若不存在则生产客户编码
 
-				if ((!text_adult.getText().equals("")) && (!text_child.equals(""))) {
+				if ((!text_adult.getText().equals("")) && (!text_child.getText().equals(""))
+						&& (!text_name.getText().equals("")) && (!text_idnum.getText().equals(""))
+						&& (!text_phone.getText().equals("")) && (!text_age.getText().equals(""))
+						&& (!text_gender.getText().equals("")) && (!text_birth.getText().equals(""))) {
+					Customer customer = new Customer();
+					customer.setName(text_name.getText());
+					customer.setId(text_idnum.getText());
+					customer.setPhone(text_phone.getText());
+					customer.setBirthday(text_birth.getText());
+					customer.setGender(text_gender.getText());
+					customer.setAge(Integer.parseInt(text_age.getText()));
+
+					String roomtype = combo_roomtype.getText();
+
 					int adultnum = Integer.parseInt(text_adult.getText());
 					int childnum = Integer.parseInt(text_child.getText());
+
+					String datetime_in = Integer.toString(date_in.getYear()) + "-"
+							+ Integer.toString(date_in.getMonth() + 1) + "-" + Integer.toString(date_in.getDay()) + " "
+							+ Integer.toString(time_in.getHours()) + ":" + Integer.toString(time_in.getMinutes()) + ":"
+							+ Integer.toString(time_in.getSeconds());
+					System.out.println(datetime_in);
+					String datetime_out = Integer.toString(date_out.getYear()) + "-"
+							+ Integer.toString(date_out.getMonth() + 1) + "-" + Integer.toString(date_out.getDay())
+							+ " " + Integer.toString(time_out.getHours()) + ":"
+							+ Integer.toString(time_out.getMinutes()) + ":" + Integer.toString(time_out.getSeconds());
+					System.out.println(datetime_out);
+					try {
+						Connection conn = AboutDB.loginDB();
+						PreparedStatement prep = conn
+								.prepareStatement("select 姓名,身份证号,客人编号 from Customer where 姓名= ? and 身份证号= ? ");
+						prep.setString(1, customer.getName());
+						prep.setString(2, customer.getId());
+						ResultSet rs = prep.executeQuery();
+						if (rs.next()) {// 数据库中已有此客户
+							customer.setNumber(rs.getString(3));
+						} else {// 生成客人编号，存入数据库
+
+							customer.setNumber(Long.toString(System.currentTimeMillis()));
+
+							prep = conn.prepareStatement("insert into Customer values(?,?,?,?,?,?) ");
+							prep.setString(1, customer.getNumber());
+							prep.setString(2, customer.getName());
+							prep.setString(3, customer.getId());
+							prep.setString(4, customer.getPhone());
+							prep.setString(5, customer.getGender());
+							prep.setString(6, customer.getBirthday());
+							prep.executeUpdate();
+							lblNewLabel_warn.setForeground(SWTResourceManager.getColor(SWT.COLOR_GREEN));
+							lblNewLabel_warn.setText("新建客人数据成功");
+							Runnable timer = new Runnable() {
+								@Override
+								public void run() {
+									if (!isDisposed())
+										lblNewLabel_warn.setText("");
+								}
+							};
+							Display.getDefault().timerExec(5000, timer);
+						}
+					} catch (SQLException ee) {
+						// TODO 自动生成的 catch 块
+						ee.printStackTrace();
+					}
+					//判断是否有空房间
+					//在订单数据库中搜索指定时间空闲的房间
+					/*搜索预约状态和正在进行状态的订单，找出空房间*/
+					
+					
+					// 将客户插入table，订单数据生成，显示在订单表上
+					LocalDateTime localdatetime = LocalDateTime.now();// 订单生成时间
+					
+					
+					TableItem tableitem = new TableItem(table, 1);
+					tableitem.setText(new String[] {customer.getName(),"",customer.getPhone(),customer.getId()});
+					
+					
+					OrderList orderlist = new OrderList();
+					orderlist.setNumber(Long.toString(System.currentTimeMillis()));
+					orderlist.setCustomernumber(customer.getNumber());
+					orderlist.setOrdertime(localdatetime.getYear() + "-" + localdatetime.getMonthValue() + "-"
+							+ localdatetime.getDayOfMonth() + " " + localdatetime.getHour() + ":"
+							+ localdatetime.getMinute() + ":" + localdatetime.getSecond());
+					showordernum.setText(orderlist.getNumber());
+					//
+					
+
 				}
-				String time_in = dateTime_in.toString();
-				System.out.println(time_in);
-				
+
 			}
 		});
-		btnNewButton_inputinfo.setText("确认");
+		btnNewButton_inputinfo.setText("生成订单");
 		composite_113.setLayout(new FillLayout(SWT.VERTICAL));
 
 		Label lblNewLabel_birth = new Label(composite_113, SWT.NONE);
