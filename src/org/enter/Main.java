@@ -39,12 +39,12 @@ public class Main extends Shell {
 	private Text text_birth;
 	private Text text_adult;
 	private Text text_child;
-	private Text text_2;
-	private Text text_4;
-	private Text text_5;
-	private Text text_8;
-	private Text text_9;
-	private Text text_10;
+	private Text text_othername;
+	private Text text_otherid;
+	private Text text_otherphone;
+	private Text text_otherbirth;
+	private Text text_otherage;
+	private Text text_othergender;
 	private Table table;
 
 	/**
@@ -74,9 +74,12 @@ public class Main extends Shell {
 	 * @param display
 	 */
 	public Main(Display display) {
+
 		super(display, SWT.SHELL_TRIM);
 		setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		OrderList orderlist = new OrderList();
 
 		Composite composite = new Composite(this, SWT.NONE);
 		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
@@ -124,6 +127,39 @@ public class Main extends Shell {
 		lblNewLabel_warn_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_warn_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 
+		Composite composite_22 = new Composite(composite_2, SWT.NONE);
+		composite_22.setLayout(new FillLayout(SWT.HORIZONTAL));
+		composite_22.setLayoutData(new RowData(385, 39));
+		composite_22.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+
+		Label lblNewLabel_roomtypel_22 = new Label(composite_22, SWT.NONE);
+		lblNewLabel_roomtypel_22.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		lblNewLabel_roomtypel_22.setAlignment(SWT.CENTER);
+		lblNewLabel_roomtypel_22.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_roomtypel_22.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_roomtypel_22.setText("房间类型");
+
+		Label lblNewLabel_roomtype_22 = new Label(composite_22, SWT.NONE);
+		lblNewLabel_roomtype_22.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		lblNewLabel_roomtype_22.setAlignment(SWT.CENTER);
+		lblNewLabel_roomtype_22.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_roomtype_22.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_roomtype_22.setText("");
+
+		Label lblNewLabel_roomnumberl_22 = new Label(composite_22, SWT.NONE);
+		lblNewLabel_roomnumberl_22.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		lblNewLabel_roomnumberl_22.setAlignment(SWT.CENTER);
+		lblNewLabel_roomnumberl_22.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_roomnumberl_22.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_roomnumberl_22.setText("房间号");
+
+		Label lblNewLabel_roomnumber_22 = new Label(composite_22, SWT.NONE);
+		lblNewLabel_roomnumber_22.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		lblNewLabel_roomnumber_22.setAlignment(SWT.CENTER);
+		lblNewLabel_roomnumber_22.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_roomnumber_22.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_roomnumber_22.setText("");
+
 		Composite composite_21 = new Composite(composite_2, SWT.NONE);
 		composite_21.setLayoutData(new RowData(SWT.DEFAULT, 201));
 		composite_21.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
@@ -163,21 +199,84 @@ public class Main extends Shell {
 		composite_212.setLayoutData(new RowData(238, 158));
 		composite_212.setLayout(new FillLayout(SWT.VERTICAL));
 
-		text_2 = new Text(composite_212, SWT.BORDER);
+		text_othername = new Text(composite_212, SWT.BORDER);
 
-		text_4 = new Text(composite_212, SWT.BORDER);
+		text_otherid = new Text(composite_212, SWT.BORDER);
+		FocusListener otherid_listener = new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				// TODO 自动生成的方法存根
+			}
 
-		text_5 = new Text(composite_212, SWT.BORDER);
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				// TODO 自动生成的方法存根
+				Idnumber idnumber = new Idnumber();
+				idnumber.idnum = text_otherid.getText();
+				if (idnumber.islegal(idnumber.idnum)) {
+					text_othergender.setText(idnumber.gender);
+					text_otherbirth.setText(idnumber.birth);
+					text_otherage.setText(idnumber.sage);
+				} else {
+					lblNewLabel_warn_1.setText("身份证错误");
+					Runnable timer = new Runnable() {
+						@Override
+						public void run() {
+							if (!isDisposed())
+								lblNewLabel_warn_1.setText("");
+						}
+					};
+					Display.getDefault().timerExec(5000, timer);
+				}
+			}
+		};
+		text_otherid.addFocusListener(otherid_listener);
 
-		Button btnNewButton_inputinfo_1 = new Button(composite_212, SWT.NONE);
-		btnNewButton_inputinfo_1.addSelectionListener(new SelectionAdapter() {
+		text_otherphone = new Text(composite_212, SWT.BORDER);
+
+		Button btnNewButton_inputother = new Button(composite_212, SWT.NONE);
+		btnNewButton_inputother.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				Idnumber idnumber = new Idnumber();
+				idnumber.idnum = text_otherid.getText();
 
+				if ((!text_othername.getText().equals("")) && (!text_otherid.getText().equals(""))
+						&& (!text_otherbirth.getText().equals("")) && (!text_otherage.getText().equals(""))
+						&& (!text_othergender.getText().equals("")) && idnumber.islegal(idnumber.idnum)) {// 随行人员必要信息不为空
+					Customer customer = new Customer();
+					customer.setAge(Integer.parseInt(text_otherage.getText()));
+					customer.setBirthday(text_otherbirth.getText());
+					customer.setGender(text_othergender.getText());
+					customer.setId(text_otherid.getText());
+					customer.setName(text_othername.getText());
+					customer.setPhone(text_otherphone.getText());
+					customer = Customer.inputdata(customer);
+
+					// 将订单和客人绑定
+
+					//
+
+					TableItem tableitem = new TableItem(table, SWT.NULL);
+					tableitem.setText(new String[] { customer.getName(), orderlist.getRoomnumber(), customer.getPhone(),
+							customer.getId() });
+
+				} else {// 缺乏必要信息
+					lblNewLabel_warn_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+					lblNewLabel_warn_1.setText("缺乏必要信息");
+					Runnable timer = new Runnable() {
+						@Override
+						public void run() {
+							if (!isDisposed())
+								lblNewLabel_warn_1.setText("");
+						}
+					};
+					Display.getDefault().timerExec(5000, timer);
+				}
 			}
 		});
-		btnNewButton_inputinfo_1.setText("\u786E\u8BA4");
-		btnNewButton_inputinfo_1.setFont(SWTResourceManager.getFont("黑体", 14, SWT.NORMAL));
+		btnNewButton_inputother.setText("添加随行人员");
+		btnNewButton_inputother.setFont(SWTResourceManager.getFont("黑体", 14, SWT.NORMAL));
 
 		Composite composite_213 = new Composite(composite_21, SWT.NONE);
 		composite_213.setLayoutData(new RowData(99, -1));
@@ -189,21 +288,21 @@ public class Main extends Shell {
 		lblNewLabel_birth_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_birth_1.setAlignment(SWT.CENTER);
 
-		text_8 = new Text(composite_213, SWT.BORDER | SWT.CENTER);
+		text_otherbirth = new Text(composite_213, SWT.BORDER | SWT.CENTER);
 
 		Label lblNewLabel_age_1 = new Label(composite_213, SWT.NONE);
 		lblNewLabel_age_1.setText("\u5E74\u9F84");
 		lblNewLabel_age_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_age_1.setAlignment(SWT.CENTER);
 
-		text_9 = new Text(composite_213, SWT.BORDER | SWT.CENTER);
+		text_otherage = new Text(composite_213, SWT.BORDER | SWT.CENTER);
 
 		Label lblNewLabel_gender_1 = new Label(composite_213, SWT.NONE);
 		lblNewLabel_gender_1.setText("\u6027\u522B");
 		lblNewLabel_gender_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_gender_1.setAlignment(SWT.CENTER);
 
-		text_10 = new Text(composite_213, SWT.BORDER | SWT.CENTER);
+		text_othergender = new Text(composite_213, SWT.BORDER | SWT.CENTER);
 
 		Composite composite_3 = new Composite(composite_MainofMain, SWT.NONE);
 		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
@@ -216,17 +315,18 @@ public class Main extends Shell {
 		RowLayout rl_composite_31 = new RowLayout(SWT.HORIZONTAL);
 		rl_composite_31.wrap = false;
 		composite_31.setLayout(rl_composite_31);
-		composite_31.setLayoutData(new RowData(288, SWT.DEFAULT));
+		composite_31.setLayoutData(new RowData(288, 38));
 		composite_31.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 
 		Label lblNewLabel_2 = new Label(composite_31, SWT.NONE);
+		lblNewLabel_2.setLayoutData(new RowData(SWT.DEFAULT, 27));
 		lblNewLabel_2.setAlignment(SWT.CENTER);
 		lblNewLabel_2.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_2.setText("订单号");
 		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 
 		Label showordernum = new Label(composite_31, SWT.NONE);
-		showordernum.setLayoutData(new RowData(242, SWT.DEFAULT));
+		showordernum.setLayoutData(new RowData(242, 27));
 		showordernum.setText("");
 		showordernum.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		showordernum.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -583,16 +683,18 @@ public class Main extends Shell {
 
 		Button btnNewButton_inputinfo = new Button(composite_112, SWT.NONE);
 		btnNewButton_inputinfo.setFont(SWTResourceManager.getFont("黑体", 14, SWT.NORMAL));
-		TableItem tableitem = new TableItem(table, 1);
+		TableItem firsttableitem = new TableItem(table, SWT.NULL);
 		btnNewButton_inputinfo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// 自动生成订单号，查询客户是否存在，若不存在则生产客户编码
+				Idnumber idnumber = new Idnumber();
+				idnumber.idnum = text_idnum.getText();
 
 				if ((!text_adult.getText().equals("")) && (!text_child.getText().equals(""))
 						&& (!text_name.getText().equals("")) && (!text_idnum.getText().equals(""))
 						&& (!text_age.getText().equals("")) && (!text_gender.getText().equals(""))
-						&& (!text_birth.getText().equals(""))) {
+						&& (!text_birth.getText().equals("")) && idnumber.islegal(idnumber.idnum)) {// 必要信息不为空
 					Customer customer = new Customer();
 					customer.setName(text_name.getText());
 					customer.setId(text_idnum.getText());
@@ -606,94 +708,99 @@ public class Main extends Shell {
 					int adultnum = Integer.parseInt(text_adult.getText());
 					int childnum = Integer.parseInt(text_child.getText());
 
+					// 格式化入住退房时间并录入
 					String datetime_in = Integer.toString(date_in.getYear()) + "-"
 							+ Integer.toString(date_in.getMonth() + 1) + "-" + Integer.toString(date_in.getDay()) + " "
 							+ Integer.toString(time_in.getHours()) + ":" + Integer.toString(time_in.getMinutes()) + ":"
 							+ Integer.toString(time_in.getSeconds());
-					System.out.println(datetime_in);
 					String datetime_out = Integer.toString(date_out.getYear()) + "-"
 							+ Integer.toString(date_out.getMonth() + 1) + "-" + Integer.toString(date_out.getDay())
 							+ " " + Integer.toString(time_out.getHours()) + ":"
 							+ Integer.toString(time_out.getMinutes()) + ":" + Integer.toString(time_out.getSeconds());
-					System.out.println(datetime_out);
+
+					customer = Customer.inputdata(customer);
+
+					boolean cancreateorder = false;
+					// 判断是否有空房间
+					// 在订单数据库中搜索指定时间空闲的房间
+					/* 搜索预约状态和正在进行状态的订单，找出空房间 */
 					try {
 						Connection conn = AboutDB.loginDB();
 						PreparedStatement prep = conn
-								.prepareStatement("select 姓名,身份证号,客人编号,手机号 from Customer where 姓名= ? and 身份证号= ? ");
-						prep.setString(1, customer.getName());
-						prep.setString(2, customer.getId());
+								.prepareStatement(" declare @in datetime,@out datetime, @type nvarchar(10)\r\n"
+										+ "set @in= ? \r\n" + "set @out= ? \r\n" + "set @type=? \r\n" + "\r\n"
+										+ "select 房间编号 from Room where 房间类型=@type and 房间编号 not in\r\n" + "\r\n"
+										+ "(select distinct a.房间编号 from OrderList a join Room b on \r\n"
+										+ "a.房间编号=b.房间编号 \r\n" + "and 房间类型=@type \r\n"
+										+ "and ((@out>=入住时间 and @out<=退房时间) or (@in>=入住时间 and @in<=退房时间)) \r\n"
+										+ "and (订单状态=2 or 订单状态=1)) ");
+						orderlist.setIntime(datetime_in);
+						orderlist.setOuttime(datetime_out);
+						prep.setString(1, orderlist.getIntime());
+						prep.setString(2, orderlist.getOuttime());
+						prep.setString(3, roomtype);
 						ResultSet rs = prep.executeQuery();
-						if (rs.next()) {// 数据库中已有此客户
-							customer.setNumber(rs.getString(3));
-							String tempphone = rs.getString(4);
-							// 更新数据库中的手机号
-							if (!text_phone.getText().equals("")) {// 如果输入框不为空，则写入数据库
-								prep = conn.prepareStatement("update Customer set 手机号=? where 姓名= ? and 身份证号= ?   ");
-								prep.setString(1, customer.getPhone());
-								prep.setString(2, customer.getName());
-								prep.setString(3, customer.getId());
-								prep.executeUpdate();
-								prep.close();
-								rs.close();
-							} else// 否则读取数据库中的手机号
-								customer.setPhone(tempphone);
-						} else {// 生成客人编号，存入数据库
-							prep.close();
-							rs.close();
-							customer.setNumber(Long.toString(System.currentTimeMillis()));
-
-							prep = conn.prepareStatement("insert into Customer values(?,?,?,?,?,?) ");
-							prep.setString(1, customer.getNumber());
-							prep.setString(2, customer.getName());
-							prep.setString(3, customer.getId());
-							prep.setString(4, customer.getPhone());
-							prep.setString(5, customer.getGender());
-							prep.setString(6, customer.getBirthday());
-							prep.executeUpdate();
-							lblNewLabel_warn.setForeground(SWTResourceManager.getColor(SWT.COLOR_GREEN));
-							lblNewLabel_warn.setText("新建客人数据成功");
+						if (rs.next()) {// 已找到空房间
+							orderlist.setRoomnumber(rs.getString(1));
+							cancreateorder = true;
+						} else {// 未找到空房间
+							lblNewLabel_warn.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+							lblNewLabel_warn.setText("未找到空房间");
 							Runnable timer = new Runnable() {
 								@Override
 								public void run() {
 									if (!isDisposed())
 										lblNewLabel_warn.setText("");
-									if (adultnum + childnum > 1) {
-										stackLayoutforMain.topControl = composite_2;
-										composite_MainofMain.layout();
-									} else {
-										stackLayoutforMain.topControl = composite_3;
-										composite_MainofMain.layout();
-									}
-
 								}
 							};
 							Display.getDefault().timerExec(5000, timer);
 						}
-						prep.close();
-						conn.close();
-					} catch (SQLException ee) {
-						// TODO 自动生成的 catch 块
+
+					} catch (Exception ee) {
+						// TODO: handle exception
 						ee.printStackTrace();
 					}
 
-					// 判断是否有空房间
-					// 在订单数据库中搜索指定时间空闲的房间
-					/* 搜索预约状态和正在进行状态的订单，找出空房间 */
+					if (cancreateorder == true) {// 有空房间，能创建订单
+						// 将房间类型和房间号放在随行人员添加界面上
+						lblNewLabel_roomtype_22.setText(roomtype);
+						// 将客户插入table，订单数据生成，显示在订单表上
+						LocalDateTime localdatetime = LocalDateTime.now();// 订单生成时间
 
-					// 将客户插入table，订单数据生成，显示在订单表上
-					LocalDateTime localdatetime = LocalDateTime.now();// 订单生成时间
+						firsttableitem.setText(new String[] { customer.getName(), orderlist.getRoomnumber(),
+								customer.getPhone(), customer.getId() });
 
-					tableitem.setText(new String[] { customer.getName(), "", customer.getPhone(), customer.getId() });
+						orderlist.setNumber(Long.toString(System.currentTimeMillis()));
+						orderlist.setCustomernumber(customer.getNumber());
+						orderlist.setOrdertime(localdatetime.getYear() + "-" + localdatetime.getMonthValue() + "-"
+								+ localdatetime.getDayOfMonth() + " " + localdatetime.getHour() + ":"
+								+ localdatetime.getMinute() + ":" + localdatetime.getSecond());
+						showordernum.setText(orderlist.getNumber());
+						lblNewLabel_roomnumber_22.setText(orderlist.getRoomnumber());
+						if (adultnum + childnum > 1) {
+							stackLayoutforMain.topControl = composite_2;
+							composite_MainofMain.layout();
+						} else {
+							stackLayoutforMain.topControl = composite_3;
+							composite_MainofMain.layout();
+						}
+						
+						//将订单数据写入数据库，链接客人和订单
+						
+						//
+					}
 
-					OrderList orderlist = new OrderList();
-					orderlist.setNumber(Long.toString(System.currentTimeMillis()));
-					orderlist.setCustomernumber(customer.getNumber());
-					orderlist.setOrdertime(localdatetime.getYear() + "-" + localdatetime.getMonthValue() + "-"
-							+ localdatetime.getDayOfMonth() + " " + localdatetime.getHour() + ":"
-							+ localdatetime.getMinute() + ":" + localdatetime.getSecond());
-					showordernum.setText(orderlist.getNumber());
-					//
-
+				} else {// 缺乏必要信息
+					lblNewLabel_warn.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+					lblNewLabel_warn.setText("缺乏必要信息");
+					Runnable timer = new Runnable() {
+						@Override
+						public void run() {
+							if (!isDisposed())
+								lblNewLabel_warn.setText("");
+						}
+					};
+					Display.getDefault().timerExec(5000, timer);
 				}
 
 			}
