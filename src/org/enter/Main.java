@@ -633,11 +633,13 @@ public class Main extends Shell {
 								prep.setString(2, customer.getName());
 								prep.setString(3, customer.getId());
 								prep.executeUpdate();
-								prep.close();rs.close();
+								prep.close();
+								rs.close();
 							} else// 否则读取数据库中的手机号
 								customer.setPhone(tempphone);
 						} else {// 生成客人编号，存入数据库
-
+							prep.close();
+							rs.close();
 							customer.setNumber(Long.toString(System.currentTimeMillis()));
 
 							prep = conn.prepareStatement("insert into Customer values(?,?,?,?,?,?) ");
