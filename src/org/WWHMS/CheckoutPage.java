@@ -199,7 +199,7 @@ public class CheckoutPage extends Shell {
 		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				table.removeAll();;
+				table.removeAll();
 				try {
 					Connection conn = AboutDB.loginDB();
 					PreparedStatement prep = conn.prepareStatement("SELECT 订单编号,下单时间,客人编号,房间编号,入住时间,退房时间,订单状态 FROM OrderList");

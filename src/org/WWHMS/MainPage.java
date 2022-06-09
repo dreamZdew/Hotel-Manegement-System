@@ -1,7 +1,11 @@
 package org.WWHMS;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -49,7 +53,15 @@ public class MainPage extends Shell {
 	private Text text_otherage;
 	private Text text_othergender;
 	private Table table;
-	private int cursorrow,cursorcol;
+	private int cursorrow, cursorcol;
+	private Table table_1;
+	private Text text;
+	private Text text_1;
+	private String tempordernumber;
+	private Text text_3;
+	private Text text_4;
+	private Text text_2;
+	private Text text_totalprice;
 
 	/**
 	 * Launch the application.
@@ -238,8 +250,6 @@ public class MainPage extends Shell {
 
 		text_otherphone = new Text(composite_212, SWT.BORDER);
 
-
-
 		Button btnNewButton_inputother = new Button(composite_212, SWT.NONE);
 		btnNewButton_inputother.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -259,10 +269,9 @@ public class MainPage extends Shell {
 					customer.setPhone(text_otherphone.getText());
 					customer = Customer.inputdata(customer);
 
-
 					TableItem tableitem = new TableItem(table, SWT.NULL);
-					tableitem.setText(new String[] {customer.getNumber(), customer.getName(), orderlist.getRoomnumber(), customer.getPhone(),
-							customer.getId() });
+					tableitem.setText(new String[] { customer.getNumber(), customer.getName(),
+							orderlist.getRoomnumber(), customer.getPhone(), customer.getId() });
 					text_otherage.setText("");
 					text_otherbirth.setText("");
 					text_othergender.setText("");
@@ -354,7 +363,7 @@ public class MainPage extends Shell {
 		showordernum.setText("");
 		showordernum.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		showordernum.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
+
 		Label lblNewLabel_3 = new Label(composite_3, SWT.NONE);
 		lblNewLabel_3.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 11, SWT.NORMAL));
 		lblNewLabel_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
@@ -363,11 +372,11 @@ public class MainPage extends Shell {
 		lblNewLabel_3.setLayoutData(new RowData(268, SWT.DEFAULT));
 		lblNewLabel_3.setText("双击删除客人");
 
-		table = new Table(composite_3, SWT.FULL_SELECTION|SWT.MULTI);
+		table = new Table(composite_3, SWT.FULL_SELECTION | SWT.MULTI);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		table.setLayoutData(new RowData(593, 195));
-		
+
 		TableColumn tblclmnNewColumn_4 = new TableColumn(table, SWT.NONE);
 		tblclmnNewColumn_4.setWidth(100);
 		tblclmnNewColumn_4.setText("客人编号");
@@ -395,43 +404,40 @@ public class MainPage extends Shell {
 		rl_composite_32.justify = true;
 		composite_32.setLayout(rl_composite_32);
 
-		final TableCursor cursor = new TableCursor(table, SWT.FULL_SELECTION);//鼠标对表格监听
+		final TableCursor cursor = new TableCursor(table, SWT.FULL_SELECTION);// 鼠标对表格监听
 		cursor.addMouseListener(new MouseAdapter() {
 			public void mouseDown(MouseEvent e) {
 				cursorrow = table.getSelectionIndex();
 				cursorcol = cursor.getColumn();
-				if(cursorrow!=0)
-				table.remove(cursorrow);
+				if (cursorrow != 0)
+					table.remove(cursorrow);
 			}
 		});
-		
-		
+
 		Button btnNewButton_inputinfo_1_2 = new Button(composite_32, SWT.NONE);
 		btnNewButton_inputinfo_1_2.setLayoutData(new RowData(158, SWT.DEFAULT));
 		btnNewButton_inputinfo_1_2.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void widgetSelected(SelectionEvent e) {//将订单插入数据库，链接客人和订单
-				
-				OrderList.addtoDatabase(orderlist);//订单插入数据库
-				
-				//链接客人和订单
-				for(int i=0;i<table.getItemCount();i++){
+			public void widgetSelected(SelectionEvent e) {// 将订单插入数据库，链接客人和订单
+
+				OrderList.addtoDatabase(orderlist);// 订单插入数据库
+
+				// 链接客人和订单
+				for (int i = 0; i < table.getItemCount(); i++) {
 					TableItem t = table.getItem(i);
 					System.out.println(t.getText(0));
-					try {//数据库写入数据
+					try {// 数据库写入数据
 						Connection conn = AboutDB.loginDB();
-						PreparedStatement prep = conn
-								.prepareStatement("insert into CustOrder values(?,?)");
+						PreparedStatement prep = conn.prepareStatement("insert into CustOrder values(?,?)");
 						prep.setString(1, t.getText(0));
-						prep.setString(2,orderlist.getNumber() );
+						prep.setString(2, orderlist.getNumber());
 						prep.executeUpdate();
 					} catch (SQLException ee) {
 						// TODO 自动生成的 catch 块
 						ee.printStackTrace();
 					}
 				}
-				
-				
+
 			}
 		});
 		btnNewButton_inputinfo_1_2.setText("确认订单");
@@ -439,9 +445,265 @@ public class MainPage extends Shell {
 
 		Composite composite_4 = new Composite(composite_MainofMain, SWT.NONE);
 		composite_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		RowLayout rl_composite_4 = new RowLayout(SWT.VERTICAL);
+		rl_composite_4.justify = true;
+		rl_composite_4.center = true;
+		composite_4.setLayout(rl_composite_4);
+
+		Label lblNewLabel_4 = new Label(composite_4, SWT.NONE);
+		lblNewLabel_4.setLayoutData(new RowData(150, 39));
+		lblNewLabel_4.setText("\u53CC\u51FB\u7ED3\u7B97\u6307\u5B9A\u8BA2\u5355");
+		lblNewLabel_4.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_4.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		lblNewLabel_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_4.setAlignment(SWT.CENTER);
+
+		table_1 = new Table(composite_4, SWT.BORDER | SWT.FULL_SELECTION);
+		table_1.setLayoutData(new RowData(672, 237));
+		table_1.setLinesVisible(true);
+		table_1.setHeaderVisible(true);
+
+		TableColumn tblclmnNewColumn_5 = new TableColumn(table_1, SWT.NONE);
+		tblclmnNewColumn_5.setWidth(100);
+		tblclmnNewColumn_5.setText("\u8BA2\u5355\u7F16\u53F7");
+
+		TableColumn tblclmnNewColumn_1_1 = new TableColumn(table_1, SWT.NONE);
+		tblclmnNewColumn_1_1.setWidth(100);
+		tblclmnNewColumn_1_1.setText("\u4E0B\u5355\u65F6\u95F4");
+
+		TableColumn tblclmnNewColumn_2_1 = new TableColumn(table_1, SWT.NONE);
+		tblclmnNewColumn_2_1.setWidth(100);
+		tblclmnNewColumn_2_1.setText("\u5BA2\u4EBA\u7F16\u53F7");
+
+		TableColumn tblclmnNewColumn_3_1 = new TableColumn(table_1, SWT.NONE);
+		tblclmnNewColumn_3_1.setWidth(100);
+		tblclmnNewColumn_3_1.setText("\u623F\u95F4\u7F16\u53F7");
+
+		TableColumn tblclmnNewColumn_4_1 = new TableColumn(table_1, SWT.NONE);
+		tblclmnNewColumn_4_1.setWidth(100);
+		tblclmnNewColumn_4_1.setText("\u5165\u4F4F\u65F6\u95F4");
+
+		TableColumn tblclmnNewColumn_5_1 = new TableColumn(table_1, SWT.NONE);
+		tblclmnNewColumn_5_1.setWidth(100);
+		tblclmnNewColumn_5_1.setText("\u9000\u623F\u65F6\u95F4");
+
+		TableColumn tblclmnNewColumn_6 = new TableColumn(table_1, SWT.NONE);
+		tblclmnNewColumn_6.setWidth(100);
+		tblclmnNewColumn_6.setText("\u8BA2\u5355\u72B6\u6001");
 
 		Composite composite_5 = new Composite(composite_MainofMain, SWT.NONE);
 		composite_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		RowLayout rl_composite_5 = new RowLayout(SWT.VERTICAL);
+		rl_composite_5.center = true;
+		composite_5.setLayout(rl_composite_5);
+
+		Composite composite_51 = new Composite(composite_5, SWT.NONE);
+		composite_51.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite_51.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		composite_51.setLayout(new GridLayout(2, false));
+		composite_51.setLayoutData(new RowData(619, 110));
+
+		Label lblNewLabel_3_1 = new Label(composite_51, SWT.NONE);
+		lblNewLabel_3_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_3_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_3_1.setAlignment(SWT.CENTER);
+		lblNewLabel_3_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 13, SWT.NORMAL));
+		lblNewLabel_3_1.setText("\u8BA2\u5355\u53F7");
+
+		Label lblNewLabel_4_1 = new Label(composite_51, SWT.NONE);
+		GridData gd_lblNewLabel_4_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_lblNewLabel_4_1.heightHint = 40;
+		gd_lblNewLabel_4_1.widthHint = 540;
+		lblNewLabel_4_1.setLayoutData(gd_lblNewLabel_4_1);
+		lblNewLabel_4_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_4_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_4_1.setAlignment(SWT.CENTER);
+		lblNewLabel_4_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 13, SWT.NORMAL));
+		lblNewLabel_4_1.setText("");
+
+		Label lblNewLabel_3_1_1 = new Label(composite_51, SWT.NONE);
+		lblNewLabel_3_1_1.setText("客人姓名");
+		lblNewLabel_3_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_3_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 13, SWT.NORMAL));
+		lblNewLabel_3_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_3_1_1.setAlignment(SWT.CENTER);
+
+		Label lblNewLabel_4_1_1 = new Label(composite_51, SWT.NONE);
+		GridData gd_lblNewLabel_4_1_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_lblNewLabel_4_1_1.widthHint = 539;
+		gd_lblNewLabel_4_1_1.heightHint = 34;
+		lblNewLabel_4_1_1.setLayoutData(gd_lblNewLabel_4_1_1);
+		lblNewLabel_4_1_1.setAlignment(SWT.CENTER);
+		lblNewLabel_4_1_1.setText("");
+		lblNewLabel_4_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_4_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 13, SWT.NORMAL));
+		lblNewLabel_4_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+
+		Composite composite_52 = new Composite(composite_5, SWT.NONE);
+		composite_52.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		composite_52.setLayoutData(new RowData(527, 34));
+		composite_52.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		Composite composite_4_1 = new Composite(composite_52, SWT.NONE);
+		composite_4_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		composite_4_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		RowLayout rl_composite_4_1 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_4_1.justify = true;
+		composite_4_1.setLayout(rl_composite_4_1);
+
+		Label lblNewLabel_1_1 = new Label(composite_4_1, SWT.NONE);
+		lblNewLabel_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_1_1.setText("\u5165\u4F4F\u65F6\u95F4");
+
+		text = new Text(composite_4_1, SWT.BORDER);
+		text.setLayoutData(new RowData(120, SWT.DEFAULT));
+
+		Composite composite_4_1_1 = new Composite(composite_52, SWT.NONE);
+		composite_4_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		RowLayout rl_composite_4_1_1 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_4_1_1.justify = true;
+		composite_4_1_1.setLayout(rl_composite_4_1_1);
+
+		Label lblNewLabel_1_1_1 = new Label(composite_4_1_1, SWT.NONE);
+		lblNewLabel_1_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_1_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_1_1_1.setText("\u9000\u623F\u65F6\u95F4");
+
+		text_1 = new Text(composite_4_1_1, SWT.BORDER);
+		text_1.setLayoutData(new RowData(120, SWT.DEFAULT));
+
+		Composite composite_52_1 = new Composite(composite_5, SWT.NONE);
+		composite_52_1.setLayoutData(new RowData(345, 34));
+		composite_52_1.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		Composite composite_4_1_2 = new Composite(composite_52_1, SWT.NONE);
+		composite_4_1_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		RowLayout rl_composite_4_1_2 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_4_1_2.justify = true;
+		composite_4_1_2.setLayout(rl_composite_4_1_2);
+
+		Label lblNewLabel_1_1_2 = new Label(composite_4_1_2, SWT.NONE);
+		lblNewLabel_1_1_2.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_1_1_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_1_1_2.setText("房间种类");
+
+		text_3 = new Text(composite_4_1_2, SWT.BORDER);
+
+		Composite composite_4_1_1_1 = new Composite(composite_52_1, SWT.NONE);
+		composite_4_1_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		RowLayout rl_composite_4_1_1_1 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_4_1_1_1.justify = true;
+		composite_4_1_1_1.setLayout(rl_composite_4_1_1_1);
+
+		Label lblNewLabel_1_1_1_1 = new Label(composite_4_1_1_1, SWT.NONE);
+		lblNewLabel_1_1_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		lblNewLabel_1_1_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_1_1_1_1.setText("价格");
+
+		text_4 = new Text(composite_4_1_1_1, SWT.BORDER);
+
+		Composite composite_52_1_1 = new Composite(composite_5, SWT.NONE);
+		composite_52_1_1.setLayoutData(new RowData(345, 34));
+		composite_52_1_1.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		Composite composite_4_1_2_1 = new Composite(composite_52_1_1, SWT.NONE);
+		composite_4_1_2_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		RowLayout rl_composite_4_1_2_1 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_4_1_2_1.justify = true;
+		composite_4_1_2_1.setLayout(rl_composite_4_1_2_1);
+
+		Label lblNewLabel_1_1_2_1 = new Label(composite_4_1_2_1, SWT.NONE);
+		lblNewLabel_1_1_2_1.setText("总时间");
+		lblNewLabel_1_1_2_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_1_1_2_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+
+		text_2 = new Text(composite_4_1_2_1, SWT.BORDER);
+
+		Composite composite_4_1_1_1_1 = new Composite(composite_52_1_1, SWT.NONE);
+		composite_4_1_1_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		RowLayout rl_composite_4_1_1_1_1 = new RowLayout(SWT.HORIZONTAL);
+		rl_composite_4_1_1_1_1.justify = true;
+		composite_4_1_1_1_1.setLayout(rl_composite_4_1_1_1_1);
+
+		Label lblNewLabel_1_1_1_1_1 = new Label(composite_4_1_1_1_1, SWT.NONE);
+		lblNewLabel_1_1_1_1_1.setText("总价格");
+		lblNewLabel_1_1_1_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_1_1_1_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+
+		text_totalprice = new Text(composite_4_1_1_1_1, SWT.BORDER);
+
+		Label lblNewLabel_5 = new Label(composite_5, SWT.NONE);
+		lblNewLabel_5.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
+		lblNewLabel_5.setLayoutData(new RowData(192, 33));
+		lblNewLabel_5.setAlignment(SWT.CENTER);
+		lblNewLabel_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+
+		Button btnNewButton = new Button(composite_5, SWT.NONE);
+		btnNewButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (!text_totalprice.getText().equals("") && !lblNewLabel_4_1.getText().equals("")) {
+					double totalprice = Double.parseDouble(text_totalprice.getText());
+					String checkordernum = lblNewLabel_4_1.getText();
+					try {
+						Connection conn = AboutDB.loginDB();
+						PreparedStatement prep = conn
+								.prepareStatement("select 订单状态 from OrderList where 订单编号=? and 订单状态!=0");
+						prep.setString(1, checkordernum);
+						ResultSet rs = prep.executeQuery();
+						
+						
+						
+						if (rs.next()) {
+							prep = conn.prepareStatement("update OrderList set 订单状态=0 where 订单编号=?");
+							prep.setString(1, checkordernum);
+							prep.executeUpdate();
+							lblNewLabel_5.setForeground(SWTResourceManager.getColor(SWT.COLOR_GREEN));
+							lblNewLabel_5.setText("结算成功");
+							Runnable timer = new Runnable() {
+								@Override
+								public void run() {
+									if (!isDisposed())
+										lblNewLabel_5.setText("");
+								}
+							};
+							Display.getDefault().timerExec(5000, timer);
+						}else {
+							lblNewLabel_5.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+							lblNewLabel_5.setText("找不到订单，或已结算");
+							Runnable timer = new Runnable() {
+								@Override
+								public void run() {
+									if (!isDisposed())
+										lblNewLabel_5.setText("");
+								}
+							};
+							Display.getDefault().timerExec(5000, timer);
+						}
+
+						
+					} catch (Exception ee) {
+						// TODO: handle exception
+						ee.printStackTrace();
+					}
+				} else {
+					lblNewLabel_5.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+					lblNewLabel_5.setText("信息不完全，结算失败");
+					Runnable timer = new Runnable() {
+						@Override
+						public void run() {
+							if (!isDisposed())
+								lblNewLabel_5.setText("");
+						}
+					};
+					Display.getDefault().timerExec(5000, timer);
+				}
+			}
+		});
+		btnNewButton.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
+		btnNewButton.setLayoutData(new RowData(153, 60));
+		btnNewButton.setText("结算");
 
 		Composite composite_6 = new Composite(composite_MainofMain, SWT.NONE);
 		composite_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
@@ -496,6 +758,22 @@ public class MainPage extends Shell {
 		btnNewButton_4.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				table_1.removeAll();
+				try {
+					Connection conn = AboutDB.loginDB();
+					PreparedStatement prep = conn
+							.prepareStatement("SELECT 订单编号,下单时间,客人编号,房间编号,入住时间,退房时间,订单状态 FROM OrderList where 订单状态!=0");
+					ResultSet rs = prep.executeQuery();
+					while (rs.next()) {
+						TableItem tableitem = new TableItem(table_1, SWT.NULL);
+						tableitem.setText(new String[] { rs.getString(1), rs.getString(2), rs.getString(3),
+								rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7) });
+
+					}
+				} catch (SQLException ee) {
+					// TODO 自动生成的 catch 块
+					ee.printStackTrace();
+				}
 				stackLayoutforMain.topControl = composite_4;
 				composite_MainofMain.layout();
 			}
@@ -503,7 +781,7 @@ public class MainPage extends Shell {
 		btnNewButton_4.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnNewButton_4.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
 		btnNewButton_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
-		btnNewButton_4.setText("New Button");
+		btnNewButton_4.setText("结算订单");
 
 		Button btnNewButton_5 = new Button(composite_Buttons, SWT.NONE);
 		btnNewButton_5.addSelectionListener(new SelectionAdapter() {
@@ -516,7 +794,7 @@ public class MainPage extends Shell {
 		btnNewButton_5.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnNewButton_5.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
 		btnNewButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
-		btnNewButton_5.setText("New Button");
+		btnNewButton_5.setText("缴费");
 
 		Button btnNewButton_6 = new Button(composite_Buttons, SWT.NONE);
 		btnNewButton_6.addSelectionListener(new SelectionAdapter() {
@@ -804,7 +1082,7 @@ public class MainPage extends Shell {
 										+ "(select distinct a.房间编号 from OrderList a join Room b on \r\n"
 										+ "a.房间编号=b.房间编号 \r\n" + "and 房间类型=@type \r\n"
 										+ "and ((@out>=入住时间 and @out<=退房时间) or (@in>=入住时间 and @in<=退房时间)) \r\n"
-										+ "and (订单状态=2 or 订单状态=1)) ");
+										+ "and (订单状态=3 or 订单状态=2 or 订单状态=1)) ");
 						orderlist.setIntime(datetime_in);
 						orderlist.setOuttime(datetime_out);
 						prep.setString(1, orderlist.getIntime());
@@ -838,8 +1116,8 @@ public class MainPage extends Shell {
 						// 将客户插入table，订单数据生成，显示在订单表上
 						LocalDateTime localdatetime = LocalDateTime.now();// 订单生成时间
 
-						firsttableitem.setText(new String[] { customer.getNumber(),customer.getName(), orderlist.getRoomnumber(),
-								customer.getPhone(), customer.getId() });
+						firsttableitem.setText(new String[] { customer.getNumber(), customer.getName(),
+								orderlist.getRoomnumber(), customer.getPhone(), customer.getId() });
 
 						orderlist.setNumber(Long.toString(System.currentTimeMillis()));
 						orderlist.setCustomernumber(customer.getNumber());
@@ -899,8 +1177,81 @@ public class MainPage extends Shell {
 		lblNewLabel_gender.setAlignment(SWT.CENTER);
 
 		text_gender = new Text(composite_113, SWT.BORDER | SWT.CENTER);
-		
 
+		final TableCursor cursor_table_1 = new TableCursor(table_1, SWT.FULL_SELECTION);// 鼠标对表格监听
+		cursor_table_1.addMouseListener(new MouseAdapter() {// 结算订单
+			public void mouseDown(MouseEvent e) {
+				cursorrow = table_1.getSelectionIndex();
+				cursorcol = cursor_table_1.getColumn();
+				TableItem t = table_1.getItem(cursorrow);
+				System.out.println(t.getText(0));
+				lblNewLabel_4_1.setText(t.getText(0));
+				String ordertime, custnum = null, custname = null, roomnum = null, intime = null, outtime = null,
+						roomtype = null, totaltime, price = null, totalprice;
+				try {
+					Connection conn = AboutDB.loginDB();
+					PreparedStatement prep = conn
+							.prepareStatement("SELECT 下单时间,客人编号,房间编号,入住时间,退房时间 FROM OrderList WHERE 订单编号=?");
+					prep.setString(1, t.getText(0));
+					ResultSet rs = prep.executeQuery();
+					if (rs.next()) {
+						ordertime = rs.getString(1);
+						custnum = rs.getString(2);
+						roomnum = rs.getString(3);
+						intime = rs.getString(4);
+						outtime = rs.getString(5);
+					}
+					prep.close();
+					rs.close();
+					prep = conn.prepareStatement("SELECT 房间类型 FROM Room WHERE 房间编号=?");
+					prep.setString(1, roomnum);
+					rs = prep.executeQuery();
+					if (rs.next()) {
+						roomtype = rs.getString(1);
+					}
+					prep = conn.prepareStatement("SELECT 姓名 FROM Customer WHERE 客人编号=?");
+					prep.setString(1, custnum);
+					rs = prep.executeQuery();
+					if (rs.next()) {
+						custname = rs.getString(1);
+					}
+					prep = conn.prepareStatement("SELECT 房间价格 FROM Roomtype WHERE 房间类型=?");
+					prep.setString(1, roomtype);
+					rs = prep.executeQuery();
+					if (rs.next()) {
+						price = rs.getString(1);
+					}
+					lblNewLabel_4_1_1.setText(custname);
+					text.setText(intime);
+					text_1.setText(outtime);
+					text_3.setText(roomtype);
+					text_4.setText(price);
+
+					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd' 'HH:mm:ss.S");
+					LocalDateTime datein = LocalDateTime.parse(intime, dtf);
+					LocalDateTime dateout = LocalDateTime.parse(outtime, dtf);
+
+					Duration duration = java.time.Duration.between(datein, dateout);
+					System.out.println(duration.toDays());
+					System.out.println(duration.toHoursPart());
+					totaltime = String.valueOf(duration.toDays());
+					String totaltimehourpart = String.valueOf(duration.toHoursPart());
+					text_2.setText(totaltime + "天" + totaltimehourpart + "小时");
+
+					double totalp = Double.valueOf(price) * Double.valueOf(totaltime);
+
+					totalprice = String.valueOf(totalp);
+					text_totalprice.setText(totalprice);
+
+				} catch (Exception ee) {
+					// TODO: handle exception
+					ee.printStackTrace();
+				}
+
+				stackLayoutforMain.topControl = composite_5;
+				composite_MainofMain.layout();
+			}
+		});
 
 		createContents();
 	}
