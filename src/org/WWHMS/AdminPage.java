@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 /*Ö÷½çÃæ*/
 
-public class MainPage extends Shell {
+public class AdminPage extends Shell {
 	private Text text_name;
 	private Text text_idnum;
 	private Text text_phone;
@@ -59,7 +59,7 @@ public class MainPage extends Shell {
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
-			MainPage shell = new MainPage(display);
+			AdminPage shell = new AdminPage(display);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
@@ -77,7 +77,7 @@ public class MainPage extends Shell {
 	 * 
 	 * @param display
 	 */
-	public MainPage(Display display) {
+	public AdminPage(Display display) {
 
 		super(display, SWT.SHELL_TRIM);
 		setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));

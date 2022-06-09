@@ -1,5 +1,9 @@
 package org.WWHMS;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class OrderList {
 	private String number;
 	private String ordertime;
@@ -55,4 +59,26 @@ public class OrderList {
 	public void setOuttime(String outtime) {
 		this.outtime = outtime;
 	}
+	public static void addtoDatabase(OrderList orderlist) {
+		try {//数据库写入数据
+			Connection conn = AboutDB.loginDB();
+			PreparedStatement prep = conn
+					.prepareStatement("insert into OrderList values(?,?,?,?,?,?,?)");
+			prep.setString(1,orderlist.getNumber() );
+			prep.setString(2,orderlist.getOrdertime() );
+			prep.setString(3, orderlist.getCustomernumber());
+			prep.setString(4, orderlist.getRoomnumber());
+			prep.setString(5, orderlist.getIntime());
+			prep.setString(6, orderlist.getOuttime());
+			prep.setString(7, "3");//这里加触发器让数据库判断订单状态
+			prep.executeUpdate();
+			
+
+		} catch (SQLException ee) {
+			// TODO 自动生成的 catch 块
+			ee.printStackTrace();
+		}
+		
+	}
+	
 }
