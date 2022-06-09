@@ -65,7 +65,6 @@ public class LoginPage {
 	 */
 	protected void createContents() {
 		shell = new Shell();
-		shell.setImage(null);
 		shell.setSize(800, 450);
 		shell.setText("欢迎进入酒店管理系统");
 		shell.setLayout(new FormLayout());
