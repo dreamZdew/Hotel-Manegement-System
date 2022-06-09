@@ -1,4 +1,4 @@
-package org.enter;
+package org.WWHMS;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +24,7 @@ import org.eclipse.swt.layout.RowData;
 /*注册界面*/
 /*这个注册是给管理员注册*/
 
-public class Signpage extends Shell {
+public class SignupPage extends Shell {
 
 	private Text text_username;
 	private Text text_password;
@@ -39,7 +39,7 @@ public class Signpage extends Shell {
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
-			Signpage shell = new Signpage(display);
+			SignupPage shell = new SignupPage(display);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
@@ -57,7 +57,7 @@ public class Signpage extends Shell {
 	 * 
 	 * @param display
 	 */
-	public Signpage(Display display) {
+	public SignupPage(Display display) {
 		super(display, SWT.SHELL_TRIM);
 		createContents();
 	}
@@ -198,7 +198,7 @@ public class Signpage extends Shell {
 
 				close();
 				try {
-					Enter window = new Enter();
+					LoginPage window = new LoginPage();
 					window.open();
 				} catch (Exception ee) {
 					ee.printStackTrace();

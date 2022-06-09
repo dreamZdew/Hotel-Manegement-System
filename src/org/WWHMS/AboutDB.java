@@ -1,4 +1,4 @@
-package org.enter;
+package org.WWHMS;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

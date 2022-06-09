@@ -1,4 +1,4 @@
-package org.enter;
+package org.WWHMS;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -23,7 +23,7 @@ import org.eclipse.swt.layout.FillLayout;
 
 /*登录界面*/
 
-public class Enter {
+public class LoginPage {
 
 	protected Shell shell;
 	private Text text_username;
@@ -37,7 +37,7 @@ public class Enter {
 	 */
 	public static void main(String[] args) {
 		try {
-			Enter window = new Enter();
+			LoginPage window = new LoginPage();
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -141,7 +141,7 @@ public class Enter {
 								/* 打开主界面 */
 								try {
 									Display display = Display.getDefault();
-									Main main = new Main(display);
+									MainPage main = new MainPage(display);
 									main.open();
 									main.layout();
 									while (!main.isDisposed()) {
@@ -203,7 +203,7 @@ public class Enter {
 				shell.close();
 				try {
 					Display display = Display.getDefault();
-					Signpage signpage = new Signpage(display);
+					SignupPage signpage = new SignupPage(display);
 					signpage.open();
 					signpage.layout();
 					while (!signpage.isDisposed()) {

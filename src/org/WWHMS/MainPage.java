@@ -1,4 +1,4 @@
-package org.enter;
+package org.WWHMS;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 /*Ö÷½çÃæ*/
 
-public class Main extends Shell {
+public class MainPage extends Shell {
 	private Text text_name;
 	private Text text_idnum;
 	private Text text_phone;
@@ -55,7 +55,7 @@ public class Main extends Shell {
 	public static void main(String args[]) {
 		try {
 			Display display = Display.getDefault();
-			Main shell = new Main(display);
+			MainPage shell = new MainPage(display);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
@@ -73,7 +73,7 @@ public class Main extends Shell {
 	 * 
 	 * @param display
 	 */
-	public Main(Display display) {
+	public MainPage(Display display) {
 
 		super(display, SWT.SHELL_TRIM);
 		setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
