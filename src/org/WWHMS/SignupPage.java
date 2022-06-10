@@ -158,11 +158,15 @@ public class SignupPage extends Shell {
 							Display.getDefault().timerExec(3000, timer);
 						}
 						if (cansign == true) {// 满足注册条件，写入数据库
-
-							prep = conn.prepareStatement(" insert into UserPass values( ?, ?)");// 写入数据库指令
+							String salt=MyDigest.usingUUID();
+							int time=10000;
+							password=MyDigest.PBKDF2(password, salt,  time);
+							prep = conn.prepareStatement(" insert into UserPass values( ?, ?, ?)");// 写入数据库指令
 							prep.setString(1, username);
 							prep.setString(2, password);
+							prep.setString(3, salt);
 							prep.executeUpdate();
+							
 							warn.setForeground(SWTResourceManager.getColor(SWT.COLOR_GREEN));
 							warn.setText("注册成功");
 							Runnable timer = new Runnable() {

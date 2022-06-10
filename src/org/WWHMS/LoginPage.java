@@ -7,6 +7,8 @@ import org.eclipse.swt.widgets.Text;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -117,21 +119,32 @@ public class LoginPage {
 		button_login.setBounds(274, 338, 80, 27);
 		button_login.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void widgetSelected(SelectionEvent e) {// 明文存储用户名和密码
+			public void widgetSelected(SelectionEvent e) {// 利用sha256存储用户名和密码
 
 				String username = text_username.getText();
 				String password = text_password.getText();
+				String salt = null;
+				conn = AboutDB.loginDB();
+				PreparedStatement prep;
+				ResultSet rs;
+
 				if (!username.equals("") && !password.equals("")) {
 					try {// 此处数据库参考数据库课本P190
-
-						conn = AboutDB.loginDB();
-						PreparedStatement prep = conn
-								.prepareStatement("select 用户名,密码 from UserPass where 用户名= ? and 密码 = ? ");
+							// 获取盐
+						prep = conn.prepareStatement("select 盐 from UserPass where 用户名= ? ");
+						prep.setString(1, username);
+						rs = prep.executeQuery();
+						if (rs.next())
+							salt = rs.getString(1);
+						//验证密码
+						int time = 10000;
+						password = MyDigest.PBKDF2(password, salt, time);
+						prep = conn.prepareStatement("select 用户名,密码 from UserPass where 用户名= ? and 密码 = ? ");
 						prep.setString(1, username);
 						prep.setString(2, password);
-						ResultSet rs = prep.executeQuery();
+						rs = prep.executeQuery();
 
-						while (rs.next()) {
+						if (rs.next()) {
 							if (username.equals(rs.getString(1)) && password.equals(rs.getString(2))) {// 登录判定
 								rs.close();
 								prep.close();
@@ -152,15 +165,12 @@ public class LoginPage {
 								} catch (Exception ee) {
 									ee.printStackTrace();
 								}
-
-								break;
-
 							}
-						}
-						if (!shell.isDisposed()) {
+						} else {
+							rs.close();
+							prep.close();
 							warn.setText("登陆失败，用户名或密码不正确");
 							text_username.setFocus();
-
 							Runnable timer = new Runnable() {
 								@Override
 								public void run() {
@@ -168,9 +178,7 @@ public class LoginPage {
 										warn.setText("");
 								}
 							};
-
 							Display.getDefault().timerExec(3000, timer);
-
 						}
 
 					} catch (Exception ee) {

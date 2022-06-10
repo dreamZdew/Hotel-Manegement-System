@@ -1,8 +1,6 @@
 package org.WWHMS;
 
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -53,11 +51,10 @@ public class MainPage extends Shell {
 	private Text text_otherage;
 	private Text text_othergender;
 	private Table table;
-	private int cursorrow, cursorcol;
+	private int cursorrow,cursorcol;
 	private Table table_1;
 	private Text text;
 	private Text text_1;
-	private String tempordernumber;
 	private Text text_3;
 	private Text text_4;
 	private Text text_2;
@@ -644,7 +641,7 @@ public class MainPage extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (!text_totalprice.getText().equals("") && !lblNewLabel_4_1.getText().equals("")) {
-					double totalprice = Double.parseDouble(text_totalprice.getText());
+					Double.parseDouble(text_totalprice.getText());
 					String checkordernum = lblNewLabel_4_1.getText();
 					try {
 						Connection conn = AboutDB.loginDB();
@@ -1186,7 +1183,7 @@ public class MainPage extends Shell {
 				TableItem t = table_1.getItem(cursorrow);
 				System.out.println(t.getText(0));
 				lblNewLabel_4_1.setText(t.getText(0));
-				String ordertime, custnum = null, custname = null, roomnum = null, intime = null, outtime = null,
+				String custnum = null, custname = null, roomnum = null, intime = null, outtime = null,
 						roomtype = null, totaltime, price = null, totalprice;
 				try {
 					Connection conn = AboutDB.loginDB();
@@ -1195,7 +1192,7 @@ public class MainPage extends Shell {
 					prep.setString(1, t.getText(0));
 					ResultSet rs = prep.executeQuery();
 					if (rs.next()) {
-						ordertime = rs.getString(1);
+						rs.getString(1);
 						custnum = rs.getString(2);
 						roomnum = rs.getString(3);
 						intime = rs.getString(4);
