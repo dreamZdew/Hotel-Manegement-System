@@ -922,7 +922,7 @@ public class MainPage extends Shell {
 
 		try {
 			Connection conn = AboutDB.loginDB();
-			PreparedStatement prep = conn.prepareStatement("select 房间类型 from RoomType");
+			PreparedStatement prep = conn.prepareStatement("select 房间类型 from RoomType order by 房间价格");
 			ResultSet rs = prep.executeQuery();
 			boolean hascomboinit = false;
 			while (rs.next()) {

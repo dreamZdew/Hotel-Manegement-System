@@ -7,8 +7,6 @@ import org.eclipse.swt.widgets.Text;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -114,6 +112,13 @@ public class LoginPage {
 		rl_composite_Button.justify = true;
 		composite_Button.setLayout(rl_composite_Button);
 
+		Button btnCheckButton = new Button(composite, SWT.CHECK);
+		FormData fd_btnCheckButton = new FormData();
+		fd_btnCheckButton.bottom = new FormAttachment(warn, -6);
+		fd_btnCheckButton.left = new FormAttachment(0, 336);
+		btnCheckButton.setLayoutData(fd_btnCheckButton);
+		btnCheckButton.setText("作为管理员登录");
+
 		Button button_login = new Button(composite_Button, SWT.NONE);
 		button_login.setLayoutData(new RowData(77, SWT.DEFAULT));
 		button_login.setBounds(274, 338, 80, 27);
@@ -121,113 +126,180 @@ public class LoginPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {// 利用sha256存储用户名和密码
 
-				String username = text_username.getText();
-				String password = text_password.getText();
-				String salt = null;
-				conn = AboutDB.loginDB();
-				PreparedStatement prep;
-				ResultSet rs;
+				if (btnCheckButton.getSelection()) {// 作为管理员登录
+					String username = text_username.getText();
+					String password = text_password.getText();
+					String salt = null;
+					conn = AboutDB.loginDB();
+					PreparedStatement prep;
+					ResultSet rs;
 
-				if (!username.equals("") && !password.equals("")) {
-					try {// 此处数据库参考数据库课本P190
-							// 获取盐
-						prep = conn.prepareStatement("select 盐 from UserPass where 用户名= ? ");
-						prep.setString(1, username);
-						rs = prep.executeQuery();
-						if (rs.next())
-							salt = rs.getString(1);
-						//验证密码
-						int time = 10000;
-						password = MyDigest.PBKDF2(password, salt, time);
-						prep = conn.prepareStatement("select 用户名,密码 from UserPass where 用户名= ? and 密码 = ? ");
-						prep.setString(1, username);
-						prep.setString(2, password);
-						rs = prep.executeQuery();
+					if (!username.equals("") && !password.equals("")) {
+						try {// 此处数据库参考数据库课本P190
+								// 获取盐
+							prep = conn.prepareStatement("select 盐 from UserPass where 用户名= ? ");
+							prep.setString(1, username);
+							rs = prep.executeQuery();
+							if (rs.next())
+								salt = rs.getString(1);
+							// 验证密码
+							int time = 10000;
+							password = MyDigest.PBKDF2(password, salt, time);
+							prep = conn.prepareStatement("select 用户名,密码,有管理员权限 from UserPass where 用户名= ? and 密码 = ? ");
+							prep.setString(1, username);
+							prep.setString(2, password);
+							rs = prep.executeQuery();
 
-						if (rs.next()) {
-							if (username.equals(rs.getString(1)) && password.equals(rs.getString(2))) {// 登录判定
+							if (rs.next()) {
+								if (username.equals(rs.getString(1)) && password.equals(rs.getString(2))
+										&& rs.getString(3).equals("1")) {// 登录判定
+									rs.close();
+									prep.close();
+									conn.close();
+									shell.close();
+
+									/* 打开管理员界面 */
+									try {
+										Display display = Display.getDefault();
+										AdminPage shell = new AdminPage(display);
+										shell.open();
+										shell.layout();
+										while (!shell.isDisposed()) {
+											if (!display.readAndDispatch()) {
+												display.sleep();
+											}
+										}
+									} catch (Exception ee) {
+										ee.printStackTrace();
+									}
+								} else {
+									rs.close();
+									prep.close();
+									warn.setText("登陆失败，该用户无管理员权限");
+									text_username.setFocus();
+									Runnable timer = new Runnable() {
+										@Override
+										public void run() {
+											if (!shell.isDisposed())
+												warn.setText("");
+										}
+									};
+									Display.getDefault().timerExec(3000, timer);
+								}
+							} else {
 								rs.close();
 								prep.close();
-								conn.close();
-								shell.close();
-
-								/* 打开主界面 */
-								try {
-									Display display = Display.getDefault();
-									MainPage main = new MainPage(display);
-									main.open();
-									main.layout();
-									while (!main.isDisposed()) {
-										if (!display.readAndDispatch()) {
-											display.sleep();
-										}
+								warn.setText("登陆失败，用户名或密码不正确");
+								text_username.setFocus();
+								Runnable timer = new Runnable() {
+									@Override
+									public void run() {
+										if (!shell.isDisposed())
+											warn.setText("");
 									}
-								} catch (Exception ee) {
-									ee.printStackTrace();
-								}
+								};
+								Display.getDefault().timerExec(3000, timer);
 							}
-						} else {
-							rs.close();
-							prep.close();
-							warn.setText("登陆失败，用户名或密码不正确");
-							text_username.setFocus();
-							Runnable timer = new Runnable() {
-								@Override
-								public void run() {
-									if (!shell.isDisposed())
-										warn.setText("");
-								}
-							};
-							Display.getDefault().timerExec(3000, timer);
-						}
 
-					} catch (Exception ee) {
-						warn.setText("无法连接到服务器");
-						ee.printStackTrace();
-					}
-				} else {
-					warn.setText("用户名或密码不能为空");
-					Runnable timer = new Runnable() {
-						@Override
-						public void run() {
-							if (!shell.isDisposed())
-								warn.setText("");
+						} catch (Exception ee) {
+							warn.setText("无法连接到服务器");
+							ee.printStackTrace();
 						}
-					};
-					Display.getDefault().timerExec(3000, timer);
+					} else {
+						warn.setText("用户名或密码不能为空");
+						Runnable timer = new Runnable() {
+							@Override
+							public void run() {
+								if (!shell.isDisposed())
+									warn.setText("");
+							}
+						};
+						Display.getDefault().timerExec(3000, timer);
+					}
+				}
+
+				else {// 作为用户登录
+					String username = text_username.getText();
+					String password = text_password.getText();
+					String salt = null;
+					conn = AboutDB.loginDB();
+					PreparedStatement prep;
+					ResultSet rs;
+
+					if (!username.equals("") && !password.equals("")) {
+						try {// 此处数据库参考数据库课本P190
+								// 获取盐
+							prep = conn.prepareStatement("select 盐 from UserPass where 用户名= ? ");
+							prep.setString(1, username);
+							rs = prep.executeQuery();
+							if (rs.next())
+								salt = rs.getString(1);
+							// 验证密码
+							int time = 10000;
+							password = MyDigest.PBKDF2(password, salt, time);
+							prep = conn.prepareStatement("select 用户名,密码 from UserPass where 用户名= ? and 密码 = ? ");
+							prep.setString(1, username);
+							prep.setString(2, password);
+							rs = prep.executeQuery();
+
+							if (rs.next()) {
+								if (username.equals(rs.getString(1)) && password.equals(rs.getString(2))) {// 登录判定
+									rs.close();
+									prep.close();
+									conn.close();
+									shell.close();
+
+									/* 打开主界面 */
+									try {
+										Display display = Display.getDefault();
+										MainPage main = new MainPage(display);
+										main.open();
+										main.layout();
+										while (!main.isDisposed()) {
+											if (!display.readAndDispatch()) {
+												display.sleep();
+											}
+										}
+									} catch (Exception ee) {
+										ee.printStackTrace();
+									}
+								}
+							} else {
+								rs.close();
+								prep.close();
+								warn.setText("登陆失败，用户名或密码不正确");
+								text_username.setFocus();
+								Runnable timer = new Runnable() {
+									@Override
+									public void run() {
+										if (!shell.isDisposed())
+											warn.setText("");
+									}
+								};
+								Display.getDefault().timerExec(3000, timer);
+							}
+
+						} catch (Exception ee) {
+							warn.setText("无法连接到服务器");
+							ee.printStackTrace();
+						}
+					} else {
+						warn.setText("用户名或密码不能为空");
+						Runnable timer = new Runnable() {
+							@Override
+							public void run() {
+								if (!shell.isDisposed())
+									warn.setText("");
+							}
+						};
+						Display.getDefault().timerExec(3000, timer);
+					}
 				}
 			}
 		});
 
 		button_login.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
 		button_login.setText("登录");
-
-		Button button_signup = new Button(composite_Button, SWT.NONE);
-		button_signup.setBounds(404, 338, 80, 27);
-		button_signup.addSelectionListener(new SelectionAdapter() {// 按下注册按钮跳转到注册界面
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-				shell.close();
-				try {
-					Display display = Display.getDefault();
-					SignupPage signpage = new SignupPage(display);
-					signpage.open();
-					signpage.layout();
-					while (!signpage.isDisposed()) {
-						if (!display.readAndDispatch()) {
-							display.sleep();
-						}
-					}
-				} catch (Exception ee) {
-					ee.printStackTrace();
-				}
-
-			}
-		});
-
-		button_signup.setText("注册");
-		button_signup.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
 
 		Composite composite_1 = new Composite(composite, SWT.NONE);
 		FormData fd_composite_1 = new FormData();
@@ -265,7 +337,7 @@ public class LoginPage {
 		label_password.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		label_password.setAlignment(SWT.CENTER);
 
-		text_password = new Text(composite_3, SWT.BORDER);
+		text_password = new Text(composite_3, SWT.BORDER | SWT.PASSWORD);
 		text_password.setLayoutData(new RowData(130, SWT.DEFAULT));
 
 	}

@@ -83,7 +83,7 @@ public class Customer {
 				String tempphone = rs.getString(4);
 				// 更新数据库中的手机号
 				if (!customer.getPhone().equals("")) {// 如果输入框不为空，则写入数据库
-					prep = conn.prepareStatement("update Customer set 手机号=? where 姓名= ? and 身份证号= ?   ");
+					prep = conn.prepareStatement("update Customer set 手机号=? where 姓名= ? and 身份证号= ? ");
 					prep.setString(1, customer.getPhone());
 					prep.setString(2, customer.getName());
 					prep.setString(3, customer.getId());

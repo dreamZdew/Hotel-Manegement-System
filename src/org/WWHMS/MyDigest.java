@@ -46,12 +46,12 @@ public class MyDigest {
 
 	}
 
-	public static String usingUUID() {
+	public static String usingUUID() {//盐生成
 		UUID randomUUID = UUID.randomUUID();
 		return randomUUID.toString().replaceAll("-", "");
 	}
 
-	public static String PBKDF2(String password, String salt, int time) {
+	public static String PBKDF2(String password, String salt, int time) {//多次循环
 		for (int i = 0; i < time; i++)
 			password = digest(password + salt);
 		return password;
