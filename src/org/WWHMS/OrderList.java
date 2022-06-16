@@ -63,7 +63,7 @@ public class OrderList {
 		try {//数据库写入数据
 			Connection conn = AboutDB.loginDB();
 			PreparedStatement prep = conn
-					.prepareStatement("insert into OrderList values(?,?,?,?,?,?,?)");
+					.prepareStatement("insert into OrderList values(?,?,?,?,?,?,?,0)");
 			prep.setString(1,orderlist.getNumber() );
 			prep.setString(2,orderlist.getOrdertime() );
 			prep.setString(3, orderlist.getCustomernumber());

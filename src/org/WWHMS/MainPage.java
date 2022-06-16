@@ -367,7 +367,7 @@ public class MainPage extends Shell {
 		lblNewLabel_3.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_3.setAlignment(SWT.CENTER);
 		lblNewLabel_3.setLayoutData(new RowData(268, SWT.DEFAULT));
-		lblNewLabel_3.setText("双击删除客人");
+		lblNewLabel_3.setText("双击删除随行人员");
 
 		table = new Table(composite_3, SWT.FULL_SELECTION | SWT.MULTI);
 		table.setLinesVisible(true);
@@ -448,7 +448,7 @@ public class MainPage extends Shell {
 		composite_4.setLayout(rl_composite_4);
 
 		Label lblNewLabel_4 = new Label(composite_4, SWT.NONE);
-		lblNewLabel_4.setLayoutData(new RowData(150, 39));
+		lblNewLabel_4.setLayoutData(new RowData(488, 39));
 		lblNewLabel_4.setText("\u53CC\u51FB\u7ED3\u7B97\u6307\u5B9A\u8BA2\u5355");
 		lblNewLabel_4.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_4.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
@@ -653,8 +653,9 @@ public class MainPage extends Shell {
 						
 						
 						if (rs.next()) {
-							prep = conn.prepareStatement("update OrderList set 订单状态=0 where 订单编号=?");
-							prep.setString(1, checkordernum);
+							prep = conn.prepareStatement("update OrderList set 订单状态=0,价格=? where 订单编号=?");
+							prep.setString(1, text_totalprice.getText());
+							prep.setString(2, checkordernum);
 							prep.executeUpdate();
 							lblNewLabel_5.setForeground(SWTResourceManager.getColor(SWT.COLOR_GREEN));
 							lblNewLabel_5.setText("结算成功");
@@ -701,12 +702,6 @@ public class MainPage extends Shell {
 		btnNewButton.setFont(SWTResourceManager.getFont("黑体", 12, SWT.NORMAL));
 		btnNewButton.setLayoutData(new RowData(153, 60));
 		btnNewButton.setText("结算");
-
-		Composite composite_6 = new Composite(composite_MainofMain, SWT.NONE);
-		composite_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-
-		Composite composite_7 = new Composite(composite_MainofMain, SWT.NONE);
-		composite_7.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 
 		stackLayoutforMain.topControl = composite_1;
 		composite_MainofMain.layout();
@@ -792,32 +787,6 @@ public class MainPage extends Shell {
 		btnNewButton_5.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
 		btnNewButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
 		btnNewButton_5.setText("缴费");
-
-		Button btnNewButton_6 = new Button(composite_Buttons, SWT.NONE);
-		btnNewButton_6.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				stackLayoutforMain.topControl = composite_6;
-				composite_MainofMain.layout();
-			}
-		});
-		btnNewButton_6.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		btnNewButton_6.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
-		btnNewButton_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
-		btnNewButton_6.setText("New Button");
-
-		Button btnNewButton_7 = new Button(composite_Buttons, SWT.NONE);
-		btnNewButton_7.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				stackLayoutforMain.topControl = composite_7;
-				composite_MainofMain.layout();
-			}
-		});
-		btnNewButton_7.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		btnNewButton_7.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
-		btnNewButton_7.setBackground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
-		btnNewButton_7.setText("New Button");
 		RowLayout rl_composite_1 = new RowLayout(SWT.VERTICAL);
 		rl_composite_1.justify = true;
 		rl_composite_1.center = true;
