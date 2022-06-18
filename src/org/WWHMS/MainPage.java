@@ -790,6 +790,25 @@ public class MainPage extends Shell {
 		btnNewButton_5.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
 		btnNewButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
 		btnNewButton_5.setText("缴费");
+		
+		Button btnNewButton_6 = new Button(composite_Buttons, SWT.NONE);
+		btnNewButton_6.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+				close();
+				try {
+					LoginPage window = new LoginPage();
+					window.open();
+				} catch (Exception ee) {
+					ee.printStackTrace();
+				}
+			}
+		});
+		btnNewButton_6.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnNewButton_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
+		btnNewButton_6.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
+		btnNewButton_6.setText("返回");
 		RowLayout rl_composite_1 = new RowLayout(SWT.VERTICAL);
 		rl_composite_1.justify = true;
 		rl_composite_1.center = true;
