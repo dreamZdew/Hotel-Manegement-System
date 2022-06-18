@@ -69,9 +69,9 @@ public class Customer {
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
-	
+
 	public static Customer inputdata(Customer customer) {
-		try {//数据库写入客人数据
+		try {// 数据库写入客人数据
 			Connection conn = AboutDB.loginDB();
 			PreparedStatement prep = conn
 					.prepareStatement("select 姓名,身份证号,客人编号,手机号 from Customer where 姓名= ? and 身份证号= ? ");
@@ -116,6 +116,5 @@ public class Customer {
 		}
 		return customer;
 	}
-	
-	
+
 }

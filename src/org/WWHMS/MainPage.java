@@ -52,7 +52,7 @@ public class MainPage extends Shell {
 	private Text text_otherage;
 	private Text text_othergender;
 	private Table table;
-	private int cursorrow,cursorcol;
+	private int cursorrow, cursorcol;
 	private Table table_1;
 	private Text text;
 	private Text text_1;
@@ -70,7 +70,7 @@ public class MainPage extends Shell {
 		try {
 			Display display = Display.getDefault();
 			MainPage shell = new MainPage(display);
-			Image image=new Image(display, "././资源文件/Hotel-Room_43669.ico");
+			Image image = new Image(display, "././资源文件/Hotel-Room_43669.ico");
 			shell.setImage(image);
 			shell.open();
 			shell.layout();
@@ -652,9 +652,7 @@ public class MainPage extends Shell {
 								.prepareStatement("select 订单状态 from OrderList where 订单编号=? and 订单状态!=0");
 						prep.setString(1, checkordernum);
 						ResultSet rs = prep.executeQuery();
-						
-						
-						
+
 						if (rs.next()) {
 							prep = conn.prepareStatement("update OrderList set 订单状态=0,价格=? where 订单编号=?");
 							prep.setString(1, text_totalprice.getText());
@@ -670,7 +668,7 @@ public class MainPage extends Shell {
 								}
 							};
 							Display.getDefault().timerExec(5000, timer);
-						}else {
+						} else {
 							lblNewLabel_5.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 							lblNewLabel_5.setText("找不到订单，或已结算");
 							Runnable timer = new Runnable() {
@@ -683,7 +681,6 @@ public class MainPage extends Shell {
 							Display.getDefault().timerExec(5000, timer);
 						}
 
-						
 					} catch (Exception ee) {
 						// TODO: handle exception
 						ee.printStackTrace();
@@ -790,12 +787,12 @@ public class MainPage extends Shell {
 		btnNewButton_5.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
 		btnNewButton_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
 		btnNewButton_5.setText("缴费");
-		
+
 		Button btnNewButton_6 = new Button(composite_Buttons, SWT.NONE);
 		btnNewButton_6.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+
 				close();
 				try {
 					LoginPage window = new LoginPage();
@@ -1174,8 +1171,8 @@ public class MainPage extends Shell {
 				TableItem t = table_1.getItem(cursorrow);
 				System.out.println(t.getText(0));
 				lblNewLabel_4_1.setText(t.getText(0));
-				String custnum = null, custname = null, roomnum = null, intime = null, outtime = null,
-						roomtype = null, totaltime, price = null, totalprice;
+				String custnum = null, custname = null, roomnum = null, intime = null, outtime = null, roomtype = null,
+						totaltime, price = null, totalprice;
 				try {
 					Connection conn = AboutDB.loginDB();
 					PreparedStatement prep = conn

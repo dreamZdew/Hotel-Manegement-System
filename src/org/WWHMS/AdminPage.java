@@ -593,155 +593,149 @@ public class AdminPage extends Shell {
 
 		List list = new List(composite_6, SWT.BORDER);
 		list.setLayoutData(BorderLayout.CENTER);
-		
-				Composite composite_7 = new Composite(composite_MainofMain, SWT.NONE);
-				composite_7.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-				composite_7.setLayout(new BorderLayout(0, 0));
-				
-				Composite composite_21 = new Composite(composite_7, SWT.NONE);
-				composite_21.setLayoutData(BorderLayout.SOUTH);
-				composite_21.setLayout(new FillLayout(SWT.HORIZONTAL));
-				
-				Composite composite_11_1_1_1 = new Composite(composite_21, SWT.NONE);
-				composite_11_1_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-				composite_11_1_1_1.setLayout(new FillLayout(SWT.VERTICAL));
-				
-				Composite composite_22 = new Composite(composite_11_1_1_1, SWT.NONE);
-				composite_22.setLayout(new FillLayout(SWT.HORIZONTAL));
-				
-				Label label_1_1_1 = new Label(composite_22, SWT.NONE);
-				label_1_1_1.setAlignment(SWT.CENTER);
-				label_1_1_1.setText("输入房间类型");
-				label_1_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-				label_1_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 13, SWT.NORMAL));
-				label_1_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-				
-				text_7 = new Text(composite_22, SWT.BORDER);
-				text_7.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 13, SWT.NORMAL));
-				
-				Button btnNewButton_9_1_1_1 = new Button(composite_22, SWT.NONE);
-				btnNewButton_9_1_1_1.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						String roomtype = text_7.getText();
-						Shell shell = new Shell();
+
+		Composite composite_7 = new Composite(composite_MainofMain, SWT.NONE);
+		composite_7.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		composite_7.setLayout(new BorderLayout(0, 0));
+
+		Composite composite_21 = new Composite(composite_7, SWT.NONE);
+		composite_21.setLayoutData(BorderLayout.SOUTH);
+		composite_21.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		Composite composite_11_1_1_1 = new Composite(composite_21, SWT.NONE);
+		composite_11_1_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+		composite_11_1_1_1.setLayout(new FillLayout(SWT.VERTICAL));
+
+		Composite composite_22 = new Composite(composite_11_1_1_1, SWT.NONE);
+		composite_22.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		Label label_1_1_1 = new Label(composite_22, SWT.NONE);
+		label_1_1_1.setAlignment(SWT.CENTER);
+		label_1_1_1.setText("输入房间类型");
+		label_1_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label_1_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 13, SWT.NORMAL));
+		label_1_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+
+		text_7 = new Text(composite_22, SWT.BORDER);
+		text_7.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 13, SWT.NORMAL));
+
+		Button btnNewButton_9_1_1_1 = new Button(composite_22, SWT.NONE);
+		btnNewButton_9_1_1_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String roomtype = text_7.getText();
+				Shell shell = new Shell();
+				// create a dialog with ok and cancel buttons and a question icon
+				MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
+				dialog.setText("删除房间类型");
+				dialog.setMessage("你确定要删除此房间类型？");
+				// open dialog and await user selection
+				int returnCode = dialog.open();
+				System.out.println(returnCode);
+				if (returnCode == 32) {
+					PreparedStatement prep;
+					try {
+						Connection conn = AboutDB.loginDB();
+						prep = conn.prepareStatement("delete from RoomType where 房间类型=?  ");
+						prep.setString(1, roomtype);
+						prep.execute();
+					} catch (SQLException e1) {
+						// TODO 自动生成的 catch 块
+						e1.printStackTrace();
+						Shell warnshell = new Shell();
 						// create a dialog with ok and cancel buttons and a question icon
-						MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
-						dialog.setText("删除房间类型");
-						dialog.setMessage("你确定要删除此房间类型？");
+						MessageBox warndialog = new MessageBox(warnshell, SWT.ICON_ERROR);
+						warndialog.setText("删除失败");
+						warndialog.setMessage("有此类型的房间存在，无法删除房间类型");
 						// open dialog and await user selection
-						int returnCode = dialog.open();
-						System.out.println(returnCode);
-						if (returnCode == 32) {
-							PreparedStatement prep;
-							try {
-								Connection conn = AboutDB.loginDB();
-								prep = conn.prepareStatement("delete from RoomType where 房间类型=?  ");
-								prep.setString(1, roomtype);
-								prep.execute();
-							} catch (SQLException e1) {
-								// TODO 自动生成的 catch 块
-								e1.printStackTrace();
-								Shell warnshell = new Shell();
-								// create a dialog with ok and cancel buttons and a question icon
-								MessageBox warndialog = new MessageBox(warnshell, SWT.ICON_ERROR);
-								warndialog.setText("删除失败");
-								warndialog.setMessage("有此类型的房间存在，无法删除房间类型");
-								// open dialog and await user selection
-								warndialog.open();
-							}
-						}
-						
-						
-						
+						warndialog.open();
 					}
-				});
-				btnNewButton_9_1_1_1.setText("删除此房间类型");
-				btnNewButton_9_1_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 13, SWT.NORMAL));
-				
-				Composite composite_19_1 = new Composite(composite_11_1_1_1, SWT.NONE);
-				composite_19_1.setLayout(new FillLayout(SWT.HORIZONTAL));
-				
-				Label label_1_1_1_1 = new Label(composite_19_1, SWT.NONE);
-				label_1_1_1_1.setAlignment(SWT.CENTER);
-				label_1_1_1_1.setText("房间类型");
-				label_1_1_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-				label_1_1_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 13, SWT.NORMAL));
-				label_1_1_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-				
-				text_3 = new Text(composite_19_1, SWT.BORDER);
-				
-				Label label_1_1_1_2 = new Label(composite_19_1, SWT.NONE);
-				label_1_1_1_2.setAlignment(SWT.CENTER);
-				label_1_1_1_2.setText("价格");
-				label_1_1_1_2.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-				label_1_1_1_2.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 13, SWT.NORMAL));
-				label_1_1_1_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-				
-				text_8 = new Text(composite_19_1, SWT.BORDER);
-				
-				Button btnNewButton_10 = new Button(composite_19_1, SWT.NONE);
-				btnNewButton_10.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						
-						String roomtype = text_3.getText(),roomprice=text_8.getText();
-						Shell shell = new Shell();
-						// create a dialog with ok and cancel buttons and a question icon
-						MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
-						dialog.setText("修改/增加房间类型");
-						dialog.setMessage("你确定要修改/增加此房间类型？");
-						// open dialog and await user selection
-						int returnCode = dialog.open();
-						System.out.println(returnCode);
-						if (returnCode == 32) {
-							PreparedStatement prep;
-							
-							
-							//更新房间类型价格
-							try {
-								Connection conn = AboutDB.loginDB();
-								prep = conn.prepareStatement("UPDATE RoomType SET  房间价格 = ? WHERE 房间类型 = ?  ");
-								prep.setString(1, roomprice);prep.setString(2, roomtype);
-								prep.execute();
-							} catch (SQLException e1) {
-								// TODO 自动生成的 catch 块
-								e1.printStackTrace();
-							}
-							//加入新的房间类型
-							try {
-								Connection conn = AboutDB.loginDB();
-								prep = conn.prepareStatement("insert into RoomType values(?,?)  ");
-								prep.setString(1, roomtype);prep.setString(2, roomprice);
-								prep.execute();
-							} catch (SQLException e1) {
-								// TODO 自动生成的 catch 块
-								e1.printStackTrace();
-							}
-							
-							
-						}
-						
-						
-						
-						
-						
+				}
+
+			}
+		});
+		btnNewButton_9_1_1_1.setText("删除此房间类型");
+		btnNewButton_9_1_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 13, SWT.NORMAL));
+
+		Composite composite_19_1 = new Composite(composite_11_1_1_1, SWT.NONE);
+		composite_19_1.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		Label label_1_1_1_1 = new Label(composite_19_1, SWT.NONE);
+		label_1_1_1_1.setAlignment(SWT.CENTER);
+		label_1_1_1_1.setText("房间类型");
+		label_1_1_1_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label_1_1_1_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 13, SWT.NORMAL));
+		label_1_1_1_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+
+		text_3 = new Text(composite_19_1, SWT.BORDER);
+
+		Label label_1_1_1_2 = new Label(composite_19_1, SWT.NONE);
+		label_1_1_1_2.setAlignment(SWT.CENTER);
+		label_1_1_1_2.setText("价格");
+		label_1_1_1_2.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		label_1_1_1_2.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 13, SWT.NORMAL));
+		label_1_1_1_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
+
+		text_8 = new Text(composite_19_1, SWT.BORDER);
+
+		Button btnNewButton_10 = new Button(composite_19_1, SWT.NONE);
+		btnNewButton_10.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+				String roomtype = text_3.getText(), roomprice = text_8.getText();
+				Shell shell = new Shell();
+				// create a dialog with ok and cancel buttons and a question icon
+				MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
+				dialog.setText("修改/增加房间类型");
+				dialog.setMessage("你确定要修改/增加此房间类型？");
+				// open dialog and await user selection
+				int returnCode = dialog.open();
+				System.out.println(returnCode);
+				if (returnCode == 32) {
+					PreparedStatement prep;
+
+					// 更新房间类型价格
+					try {
+						Connection conn = AboutDB.loginDB();
+						prep = conn.prepareStatement("UPDATE RoomType SET  房间价格 = ? WHERE 房间类型 = ?  ");
+						prep.setString(1, roomprice);
+						prep.setString(2, roomtype);
+						prep.execute();
+					} catch (SQLException e1) {
+						// TODO 自动生成的 catch 块
+						e1.printStackTrace();
 					}
-				});
-				btnNewButton_10.setText("修改或添加房间类型");
-				
-				table_3 = new Table(composite_7, SWT.BORDER | SWT.FULL_SELECTION);
-				table_3.setLayoutData(BorderLayout.CENTER);
-				table_3.setHeaderVisible(true);
-				table_3.setLinesVisible(true);
-				
-				TableColumn tblclmnNewColumn_10 = new TableColumn(table_3, SWT.NONE);
-				tblclmnNewColumn_10.setWidth(100);
-				tblclmnNewColumn_10.setText("房间类型");
-				
-				TableColumn tblclmnNewColumn_11 = new TableColumn(table_3, SWT.NONE);
-				tblclmnNewColumn_11.setWidth(100);
-				tblclmnNewColumn_11.setText("价格");
+					// 加入新的房间类型
+					try {
+						Connection conn = AboutDB.loginDB();
+						prep = conn.prepareStatement("insert into RoomType values(?,?)  ");
+						prep.setString(1, roomtype);
+						prep.setString(2, roomprice);
+						prep.execute();
+					} catch (SQLException e1) {
+						// TODO 自动生成的 catch 块
+						e1.printStackTrace();
+					}
+
+				}
+
+			}
+		});
+		btnNewButton_10.setText("修改或添加房间类型");
+
+		table_3 = new Table(composite_7, SWT.BORDER | SWT.FULL_SELECTION);
+		table_3.setLayoutData(BorderLayout.CENTER);
+		table_3.setHeaderVisible(true);
+		table_3.setLinesVisible(true);
+
+		TableColumn tblclmnNewColumn_10 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_10.setWidth(100);
+		tblclmnNewColumn_10.setText("房间类型");
+
+		TableColumn tblclmnNewColumn_11 = new TableColumn(table_3, SWT.NONE);
+		tblclmnNewColumn_11.setWidth(100);
+		tblclmnNewColumn_11.setText("价格");
 
 		Composite composite_4 = new Composite(composite_MainofMain, SWT.NONE);
 		composite_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
@@ -800,18 +794,18 @@ public class AdminPage extends Shell {
 		lblNewLabel_3.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		lblNewLabel_3.setText("New Label");
-		
+
 		Composite composite_15_1 = new Composite(composite_4, SWT.NONE);
 		composite_15_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		composite_15_1.setLayout(new FillLayout(SWT.HORIZONTAL));
-		
+
 		Label lblNewLabel_8_1 = new Label(composite_15_1, SWT.NONE);
 		lblNewLabel_8_1.setText("总房间类型数量");
 		lblNewLabel_8_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_8_1.setFont(SWTResourceManager.getFont("Microsoft YaHei UI", 12, SWT.NORMAL));
 		lblNewLabel_8_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
 		lblNewLabel_8_1.setAlignment(SWT.CENTER);
-		
+
 		Label lblNewLabel_9_1 = new Label(composite_15_1, SWT.NONE);
 		lblNewLabel_9_1.setText("New Label");
 		lblNewLabel_9_1.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -1008,10 +1002,7 @@ public class AdminPage extends Shell {
 					// TODO 自动生成的 catch 块
 					ee.printStackTrace();
 				}
-				
-				
-				
-				
+
 				stackLayoutforMain.topControl = composite_7;
 				composite_MainofMain.layout();
 			}
@@ -1020,58 +1011,58 @@ public class AdminPage extends Shell {
 		btnNewButton_7.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
 		btnNewButton_7.setBackground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
 		btnNewButton_7.setText("房间类型管理");
-		
-				Button btnNewButton_4 = new Button(composite_Buttons, SWT.NONE);
-				btnNewButton_4.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
 
-						try {
-							Connection conn = AboutDB.loginDB();
-							PreparedStatement prep = conn.prepareStatement("select SUM(价格) from OrderList");
-							ResultSet rs = prep.executeQuery();
-							if (rs.next()) {
-								lblNewLabel_9.setText(rs.getString(1));
-							}
-							prep = conn.prepareStatement("select COUNT(*) from OrderList");
-							rs = prep.executeQuery();
-							if (rs.next()) {
-								lblNewLabel_1.setText(rs.getString(1));
-							}
-							prep = conn.prepareStatement("select COUNT(*) from Customer");
-							rs = prep.executeQuery();
-							if (rs.next()) {
-								lblNewLabel_3.setText(rs.getString(1));
-							}
-							prep = conn.prepareStatement("select COUNT(*) from Room");
-							rs = prep.executeQuery();
-							if (rs.next()) {
-								lblNewLabel_7.setText(rs.getString(1));
-							}
-							prep = conn.prepareStatement("select COUNT(*) from UserPass");
-							rs = prep.executeQuery();
-							if (rs.next()) {
-								lblNewLabel_1_1.setText(rs.getString(1));
-							}
-							prep = conn.prepareStatement("select COUNT(*) from RoomType");
-							rs = prep.executeQuery();
-							if (rs.next()) {
-								lblNewLabel_9_1.setText(rs.getString(1));
-							}
+		Button btnNewButton_4 = new Button(composite_Buttons, SWT.NONE);
+		btnNewButton_4.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
 
-						} catch (SQLException ee) {
-							// TODO 自动生成的 catch 块
-							ee.printStackTrace();
-						}
-
-						stackLayoutforMain.topControl = composite_4;
-						composite_MainofMain.layout();
+				try {
+					Connection conn = AboutDB.loginDB();
+					PreparedStatement prep = conn.prepareStatement("select SUM(价格) from OrderList");
+					ResultSet rs = prep.executeQuery();
+					if (rs.next()) {
+						lblNewLabel_9.setText(rs.getString(1));
 					}
-				});
-				btnNewButton_4.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-				btnNewButton_4.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
-				btnNewButton_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
-				btnNewButton_4.setText("数据统计");
+					prep = conn.prepareStatement("select COUNT(*) from OrderList");
+					rs = prep.executeQuery();
+					if (rs.next()) {
+						lblNewLabel_1.setText(rs.getString(1));
+					}
+					prep = conn.prepareStatement("select COUNT(*) from Customer");
+					rs = prep.executeQuery();
+					if (rs.next()) {
+						lblNewLabel_3.setText(rs.getString(1));
+					}
+					prep = conn.prepareStatement("select COUNT(*) from Room");
+					rs = prep.executeQuery();
+					if (rs.next()) {
+						lblNewLabel_7.setText(rs.getString(1));
+					}
+					prep = conn.prepareStatement("select COUNT(*) from UserPass");
+					rs = prep.executeQuery();
+					if (rs.next()) {
+						lblNewLabel_1_1.setText(rs.getString(1));
+					}
+					prep = conn.prepareStatement("select COUNT(*) from RoomType");
+					rs = prep.executeQuery();
+					if (rs.next()) {
+						lblNewLabel_9_1.setText(rs.getString(1));
+					}
+
+				} catch (SQLException ee) {
+					// TODO 自动生成的 catch 块
+					ee.printStackTrace();
+				}
+
+				stackLayoutforMain.topControl = composite_4;
+				composite_MainofMain.layout();
+			}
+		});
+		btnNewButton_4.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		btnNewButton_4.setFont(SWTResourceManager.getFont("黑体", 11, SWT.NORMAL));
+		btnNewButton_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_LINK_FOREGROUND));
+		btnNewButton_4.setText("数据统计");
 
 		Button btnNewButton_7_1 = new Button(composite_Buttons, SWT.NONE);
 		btnNewButton_7_1.addSelectionListener(new SelectionAdapter() {
@@ -1164,7 +1155,8 @@ public class AdminPage extends Shell {
 				try {
 					Connection conn = AboutDB.loginDB();
 					prep = conn.prepareStatement("insert into Room values(?,?)");
-					prep.setString(1, roomnumber);prep.setString(2, roomtype);
+					prep.setString(1, roomnumber);
+					prep.setString(2, roomtype);
 					prep.execute();
 				} catch (SQLException e1) {
 					// TODO 自动生成的 catch 块

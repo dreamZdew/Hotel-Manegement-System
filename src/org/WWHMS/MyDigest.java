@@ -9,10 +9,10 @@ import java.util.UUID;
 public class MyDigest {
 
 	public static void main(String[] args) {
-		
-		String salt=usingUUID(),password="123456";
-		int time=10000;
-		String sha=PBKDF2(password, salt,  time);
+
+		String salt = usingUUID(), password = "123456";
+		int time = 10000;
+		String sha = PBKDF2(password, salt, time);
 		System.out.println(sha);
 	}
 
@@ -46,12 +46,12 @@ public class MyDigest {
 
 	}
 
-	public static String usingUUID() {//盐生成
+	public static String usingUUID() {// 盐生成
 		UUID randomUUID = UUID.randomUUID();
 		return randomUUID.toString().replaceAll("-", "");
 	}
 
-	public static String PBKDF2(String password, String salt, int time) {//多次循环
+	public static String PBKDF2(String password, String salt, int time) {// 多次循环
 		for (int i = 0; i < time; i++)
 			password = digest(password + salt);
 		return password;

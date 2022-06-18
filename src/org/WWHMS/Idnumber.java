@@ -8,7 +8,7 @@ public class Idnumber {
 	public String idnum, gender, birth, sage;
 
 	public boolean islegal(String iidnum) {
-		idnum=iidnum;
+		idnum = iidnum;
 		if (idnum.length() == 18) // 身份证长度判断
 		{// 利用身份证校验码校验
 			int b[] = { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
@@ -33,7 +33,8 @@ public class Idnumber {
 						birthday = birth.substring(6, 8);
 				int birthyearnum = Integer.parseInt(birthyear), birthmonthnum = Integer.parseInt(birthmonth),
 						birthdaynum = Integer.parseInt(birthday);
-				birth = Integer.toString(birthyearnum) + "-" + Integer.toString(birthmonthnum) + "-" + Integer.toString(birthdaynum);
+				birth = Integer.toString(birthyearnum) + "-" + Integer.toString(birthmonthnum) + "-"
+						+ Integer.toString(birthdaynum);
 				// 算年龄（周岁）
 				LocalDate date = LocalDate.now();
 				int nowyear = date.getYear(), nowmonth = date.getMonthValue(), nowday = date.getDayOfMonth();
@@ -52,5 +53,5 @@ public class Idnumber {
 		}
 		return false;
 	}
-	
+
 }

@@ -51,7 +51,7 @@ public class LoginPage {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
-		Image image=new Image(display, "././资源文件/Hotel-Room_43669.ico");
+		Image image = new Image(display, "././资源文件/Hotel-Room_43669.ico");
 		shell.setImage(image);
 		shell.open();
 		shell.layout();
@@ -165,7 +165,7 @@ public class LoginPage {
 									try {
 										Display display = Display.getDefault();
 										AdminPage shell = new AdminPage(display);
-										Image image=new Image(display, "././资源文件/Hotel-Room_43669.ico");
+										Image image = new Image(display, "././资源文件/Hotel-Room_43669.ico");
 										shell.setImage(image);
 										shell.open();
 										shell.layout();
@@ -258,7 +258,7 @@ public class LoginPage {
 									try {
 										Display display = Display.getDefault();
 										MainPage main = new MainPage(display);
-										Image image=new Image(display, "././资源文件/Hotel-Room_43669.ico");
+										Image image = new Image(display, "././资源文件/Hotel-Room_43669.ico");
 										main.setImage(image);
 										main.open();
 										main.layout();
