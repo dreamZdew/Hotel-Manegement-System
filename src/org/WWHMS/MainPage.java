@@ -28,6 +28,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -69,6 +70,8 @@ public class MainPage extends Shell {
 		try {
 			Display display = Display.getDefault();
 			MainPage shell = new MainPage(display);
+			Image image=new Image(display, "././资源文件/Hotel-Room_43669.ico");
+			shell.setImage(image);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {

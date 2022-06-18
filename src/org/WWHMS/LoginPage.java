@@ -13,6 +13,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -50,6 +51,8 @@ public class LoginPage {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
+		Image image=new Image(display, "././资源文件/Hotel-Room_43669.ico");
+		shell.setImage(image);
 		shell.open();
 		shell.layout();
 
@@ -162,6 +165,8 @@ public class LoginPage {
 									try {
 										Display display = Display.getDefault();
 										AdminPage shell = new AdminPage(display);
+										Image image=new Image(display, "././资源文件/Hotel-Room_43669.ico");
+										shell.setImage(image);
 										shell.open();
 										shell.layout();
 										while (!shell.isDisposed()) {
@@ -253,6 +258,8 @@ public class LoginPage {
 									try {
 										Display display = Display.getDefault();
 										MainPage main = new MainPage(display);
+										Image image=new Image(display, "././资源文件/Hotel-Room_43669.ico");
+										main.setImage(image);
 										main.open();
 										main.layout();
 										while (!main.isDisposed()) {

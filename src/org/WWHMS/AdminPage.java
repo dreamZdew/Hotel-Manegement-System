@@ -22,6 +22,8 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
+
 import swing2swt.layout.BorderLayout;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -56,6 +58,8 @@ public class AdminPage extends Shell {
 		try {
 			Display display = Display.getDefault();
 			AdminPage shell = new AdminPage(display);
+			Image image=new Image(display, "././资源文件/Hotel-Room_43669.ico");
+			shell.setImage(image);
 			shell.open();
 			shell.layout();
 			while (!shell.isDisposed()) {
